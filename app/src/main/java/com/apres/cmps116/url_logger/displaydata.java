@@ -53,6 +53,7 @@ public class displaydata extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
+                statslist.removeAllViews();
                 for (UsageStats u : usageStatsList){
                     if (u.getTotalTimeInForeground()!=0){
                         TextView tv = new TextView(displaydata.this);

@@ -43,7 +43,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="04fbdf4d0baa873ac109d5331f99b18aa79c9017">
+        sha1="b3c3c91a7e6a5fa393e9a03c8b33f45ae2fad0f2">
         <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_1247bffa6a391103fb7024b755e45897fbd19d40/classes.dex" />
     </item>
     <item
@@ -52,7 +52,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="bbdd168c91441c75afcb4387bcb3d8bb49408a37">
+        sha1="4cd1d5522478f2acffc210885e33d2a887001a1e">
         <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_e9c49f039450ee09dbb94f80e81f570a75284b87/classes.dex" />
     </item>
     <item
@@ -108,6 +108,15 @@
         revision="25.0.2"
         sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
         <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.1_d5776bd96ce0a0afe04ff7f3b65e059a2d3f413d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.volley/volley/1.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.volley-volley-1.0.0_ea55059084e38391162fd96c30e9212d199f289c/classes.dex" />
     </item>
     <item
         is-multidex="true"
