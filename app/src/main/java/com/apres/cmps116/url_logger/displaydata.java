@@ -36,7 +36,7 @@ public class displaydata extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_data);
 
-        ActionBar  actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
