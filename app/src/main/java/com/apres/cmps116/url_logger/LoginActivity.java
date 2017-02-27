@@ -81,6 +81,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String responseString;
+    private char responseChar;
+    static String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+
+        final TextView privacypolicypage = (TextView) findViewById(R.id.privacypolicy);
+        privacypolicypage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, Privacypolicy.class);
+                startActivity(intent);
+            }
+        });
+        privacypolicypage.setClickable(true);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -206,69 +219,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            // Instantiate the RequestQueue.
-            //RequestQueue queue = Volley.newRequestQueue(this);
-            //try {
-                String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/login.php";
-                //JSONObject jsonBody = new JSONObject();
-               // jsonBody.put("user", email);
-               // jsonBody.put("pass", password);
-                final String requestBody = "user=" + email + "&pass=" + password;
-                //final String requestBody = jsonBody.toString();
+            String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/login.php";
+            final String requestBody = "user=" + email + "&pass=" + password;
 
-                MySingleton volley = MySingleton.getInstance(getApplicationContext());
-                mRequestQueue = volley.getRequestQueue();
-
-                //Intent intent = getIntent();
-                //if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-                //String query = intent.getStringExtra(SearchManager.QUERY);
-                //search(query);
-
-
+            MySingleton volley = MySingleton.getInstance(getApplicationContext());
+            mRequestQueue = volley.getRequestQueue();
 // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("VOLLEY", response);
-                        Intent intent = new Intent(LoginActivity.this, displaydata.class);
-                        startActivity(intent);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("VOLLEY", error.toString());
-                    }
-                }) {
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/x-www-form-urlencoded; charset=utf-8";
-                    }
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("VOLLEY", response);
+                    Intent intent = new Intent(LoginActivity.this, displaydata.class);
+                    startActivity(intent);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/x-www-form-urlencoded; charset=utf-8";
+                }
 
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return requestBody == null ? null : requestBody.getBytes("utf-8");
-                        } catch (UnsupportedEncodingException uee) {
-                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                            return null;
-                        }
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
                     }
+                }
 
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        String responseString = "";
-                        if (response != null) {
-                            responseString = String.valueOf(response.statusCode);
-                            // can get more details such as response.headers
-                        }
-                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    if (response != null) {
+
+                        responseChar = (char) response.data[0];
+                        userid = String.valueOf(responseChar);
+                        responseString = String.valueOf(response.data[0]);
+
+
+
+                        // can get more details such as response.headers
                     }
-                };
-                mRequestQueue.add(stringRequest);
-           // }
-           // catch(JSONException e){
-           //     e.printStackTrace();
-            //}
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+            mRequestQueue.add(stringRequest);
         }
     }
 

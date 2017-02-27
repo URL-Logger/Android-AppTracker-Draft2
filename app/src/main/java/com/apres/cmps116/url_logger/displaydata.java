@@ -17,6 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 
@@ -28,6 +39,7 @@ public class displaydata extends AppCompatActivity {
 
     Button statsBtn;
     LinearLayout statslist;
+    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +66,77 @@ public class displaydata extends AppCompatActivity {
             public void onClick(View v) {
                 List<UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
                 statslist.removeAllViews();
+                int count=0;
                 for (UsageStats u : usageStatsList){
-                    if (u.getTotalTimeInForeground()!=0){
+                    if (u.getTotalTimeInForeground()!=0 && count < 4){
                         TextView tv = new TextView(displaydata.this);
                         tv.setText(u.getPackageName() + ":\t" + u.getTotalTimeInForeground());
                         statslist.addView(tv);
+                        String userid = LoginActivity.userid;
+                        String appid = u.getPackageName();
+                        long time = System.currentTimeMillis();
+                        long start = u.getFirstTimeStamp();
+                        long end = u.getLastTimeStamp();
+                        long last = u.getLastTimeUsed();
+                        long total = u.getTotalTimeInForeground();
+                        sendData(userid, appid, time, start, end, last, total);
+                        count++;
                     }
                 }
                 //UStats.printCurrentUsageStatus(displaydata.this);
 
             }
         });
+
+    }
+
+    void sendData(String userid, String appid, long timestamp, long start, long end, long last, long total){
+        String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
+        final String requestBody = "UserID=" + userid+ "&AppID=" + appid + "&Timestamp=" + timestamp + "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total;
+
+
+        MySingleton volley = MySingleton.getInstance(getApplicationContext());
+        mRequestQueue = volley.getRequestQueue();
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response);
+               // Intent intent = new Intent(LoginActivity.this, displaydata.class);
+               // startActivity(intent);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        mRequestQueue.add(stringRequest);
 
     }
 
