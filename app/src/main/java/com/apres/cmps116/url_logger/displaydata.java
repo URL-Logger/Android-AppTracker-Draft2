@@ -2,6 +2,7 @@ package com.apres.cmps116.url_logger;
 
 import android.app.Activity;
 import android.app.usage.UsageStats;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -60,16 +61,21 @@ public class displaydata extends AppCompatActivity {
             startActivity(intent);
         }
 
+        startService(new Intent(displaydata.this, MyService.class));
+
         statsBtn = (Button) findViewById(R.id.stats_btn);
         statsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 List<UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
                 statslist.removeAllViews();
                 int count=0;
                 for (UsageStats u : usageStatsList){
-                    if (u.getTotalTimeInForeground()!=0 && count < 4){
+                    if (u.getTotalTimeInForeground()!=0){
                         TextView tv = new TextView(displaydata.this);
+                        Log.d(u.getPackageName(),"First:"+u.getFirstTimeStamp()+
+                                " Last:"+u.getLastTimeStamp()+" Total:" + u.getTotalTimeInForeground());
                         tv.setText(u.getPackageName() + ":\t" + u.getTotalTimeInForeground());
                         statslist.addView(tv);
                         String userid = LoginActivity.userid;
@@ -83,6 +89,7 @@ public class displaydata extends AppCompatActivity {
                         count++;
                     }
                 }
+                Log.d("Count",""+count);
                 //UStats.printCurrentUsageStatus(displaydata.this);
 
             }

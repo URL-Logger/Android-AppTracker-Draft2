@@ -22,8 +22,9 @@ class UStats {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
     public static final String TAG = UStats.class.getSimpleName();
     @SuppressWarnings("ResourceType")
+
     public static void getStats(Context context){
-        UsageStatsManager usm = (UsageStatsManager) context.getSystemService("usagestats");
+        UsageStatsManager usm = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         int interval = UsageStatsManager.INTERVAL_YEARLY;
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
@@ -48,13 +49,13 @@ class UStats {
         UsageStatsManager usm = getUsageStatsManager(context);
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.YEAR, -1);
+        calendar.add(Calendar.MONTH, -1);
         long startTime = calendar.getTimeInMillis();
 
         Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
         Log.d(TAG, "Range end:" + dateFormat.format(endTime));
 
-        List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,startTime,endTime);
+        List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY,startTime,endTime);
         return usageStatsList;
     }
 

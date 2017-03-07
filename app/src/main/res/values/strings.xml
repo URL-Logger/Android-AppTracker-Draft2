@@ -13,4 +13,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="local_service_started">Service has started</string>
+    <string name="local_service_label">Notification</string>
 </resources>
