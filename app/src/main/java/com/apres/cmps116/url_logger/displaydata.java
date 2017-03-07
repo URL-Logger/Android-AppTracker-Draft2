@@ -30,6 +30,8 @@ import com.android.volley.toolbox.StringRequest;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -63,37 +65,46 @@ public class displaydata extends AppCompatActivity {
 
         startService(new Intent(displaydata.this, MyService.class));
 
-        statsBtn = (Button) findViewById(R.id.stats_btn);
-        statsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                List<UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
-                statslist.removeAllViews();
-                int count=0;
-                for (UsageStats u : usageStatsList){
-                    if (u.getTotalTimeInForeground()!=0){
-                        TextView tv = new TextView(displaydata.this);
-                        Log.d(u.getPackageName(),"First:"+u.getFirstTimeStamp()+
-                                " Last:"+u.getLastTimeStamp()+" Total:" + u.getTotalTimeInForeground());
-                        tv.setText(u.getPackageName() + ":\t" + u.getTotalTimeInForeground());
-                        statslist.addView(tv);
-                        String userid = LoginActivity.userid;
-                        String appid = u.getPackageName();
-                        long time = System.currentTimeMillis();
-                        long start = u.getFirstTimeStamp();
-                        long end = u.getLastTimeStamp();
-                        long last = u.getLastTimeUsed();
-                        long total = u.getTotalTimeInForeground();
-                        sendData(userid, appid, time, start, end, last, total);
-                        count++;
+
+
+                statsBtn = (Button) findViewById(R.id.stats_btn);
+                statsBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new Timer().scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                        List<UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
+                       // statslist.removeAllViews();
+                        int count=0;
+                        for (UsageStats u : usageStatsList){
+                            if (u.getTotalTimeInForeground()!=0){
+                                //TextView tv = new TextView(displaydata.this);
+                                Log.d(u.getPackageName(),"First:"+u.getFirstTimeStamp()+
+                                        " Last:"+u.getLastTimeStamp()+" Total:" + u.getTotalTimeInForeground());
+                                //tv.setText(u.getPackageName() + ":\t" + u.getTotalTimeInForeground());
+                               // statslist.addView(tv);
+                                String userid = LoginActivity.userid;
+                                String appid = u.getPackageName();
+                                long time = System.currentTimeMillis();
+                                long start = u.getFirstTimeStamp();
+                                long end = u.getLastTimeStamp();
+                                long last = u.getLastTimeUsed();
+                                long total = u.getTotalTimeInForeground();
+                                sendData(userid, appid, time, start, end, last, total);
+                                count++;
+                            }
+                        }
+                        Log.d("Count",""+count);
+                        //UStats.printCurrentUsageStatus(displaydata.this);
+                            }
+                        }, 0, 5000);//put here time 5000 milliseconds=5 second
                     }
-                }
-                Log.d("Count",""+count);
-                //UStats.printCurrentUsageStatus(displaydata.this);
+                });
 
-            }
-        });
+
+
 
     }
 

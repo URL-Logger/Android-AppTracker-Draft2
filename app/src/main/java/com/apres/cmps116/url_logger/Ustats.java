@@ -49,13 +49,13 @@ class UStats {
         UsageStatsManager usm = getUsageStatsManager(context);
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
         long startTime = calendar.getTimeInMillis();
 
         Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
         Log.d(TAG, "Range end:" + dateFormat.format(endTime));
 
-        List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY,startTime,endTime);
+        List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,startTime,endTime);
         return usageStatsList;
     }
 
