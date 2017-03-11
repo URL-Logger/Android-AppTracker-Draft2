@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.usage.UsageStats;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -29,10 +30,15 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.apres.cmps116.url_logger.LoginActivity.userid;
 
 /**
  * Created by cedriclinares on 2/18/17.
@@ -75,27 +81,52 @@ public class displaydata extends AppCompatActivity {
                         new Timer().scheduleAtFixedRate(new TimerTask() {
                             @Override
                             public void run() {
-                        List<UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
+                        Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(displaydata.this);
                        // statslist.removeAllViews();
                         int count=0;
-                        for (UsageStats u : usageStatsList){
-                            if (u.getTotalTimeInForeground()!=0){
-                                //TextView tv = new TextView(displaydata.this);
-                                Log.d(u.getPackageName(),"First:"+u.getFirstTimeStamp()+
-                                        " Last:"+u.getLastTimeStamp()+" Total:" + u.getTotalTimeInForeground());
-                                //tv.setText(u.getPackageName() + ":\t" + u.getTotalTimeInForeground());
-                               // statslist.addView(tv);
-                                String userid = LoginActivity.userid;
-                                String appid = u.getPackageName();
-                                long time = System.currentTimeMillis();
-                                long start = u.getFirstTimeStamp();
-                                long end = u.getLastTimeStamp();
-                                long last = u.getLastTimeUsed();
-                                long total = u.getTotalTimeInForeground();
-                                sendData(userid, appid, time, start, end, last, total);
-                                count++;
-                            }
-                        }
+                                List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
+                                PackageManager pm = getPackageManager();
+                                for (UsageStats usage : usageStatsList.values()) {
+                                    AppsUsageItem item = new AppsUsageItem();
+                                    item.pkgName = usage.getPackageName();
+                                   // if (item.pkgName.equals("com.miniclip.eightballpool")){
+                                        Field mLaunchCount = null;
+                                        try {
+                                            mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
+
+                                        } catch (NoSuchFieldException e) {
+                                            e.printStackTrace();
+                                        }
+                                        int launchCount = 0;
+                                        try {
+                                            launchCount = (Integer)mLaunchCount.get(usage);
+                                        //    Log.d("Eightball", "Count: " + launchCount);
+                                        } catch (IllegalAccessException e) {
+                                            e.printStackTrace();
+                                        }
+                                        //  Log.d("Countcheck", usageStatsList)
+
+                                   // }
+                                    item.lastStartup = usage.getLastTimeUsed();
+                                    item.fgTime = usage.getTotalTimeInForeground();
+                          //          item.lastStartupStr = getString(R.string.apps_usage_last_startup,
+                           //                 DateTimeUtils.generateFileName(item.lastStartup));
+                          //          item.fgTime = usage.getTotalTimeInForeground();
+                           //         item.fgTimeStr = getString(R.string.apps_usage_fg_time_used,
+                           //                 DateTimeUtils.getReadableTimeUsage(item.fgTime));
+                                    item.appName = item.pkgName;
+                                    String userid = LoginActivity.userid;
+                                    sendData(userid,item.appName, System.currentTimeMillis(), usage.getFirstTimeStamp(),
+                                            usage.getLastTimeStamp(), item.lastStartup, item.fgTime);
+                                    try {
+                                        item.appName = pm.getApplicationInfo(item.pkgName, 0).loadLabel(pm).toString();
+                                    } catch (PackageManager.NameNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                    results.add(item);
+                                }
+                                Collections.sort(results, new AppsUsageItem.AppNameComparator());
+
                         Log.d("Count",""+count);
                         //UStats.printCurrentUsageStatus(displaydata.this);
                             }
@@ -110,7 +141,9 @@ public class displaydata extends AppCompatActivity {
 
     void sendData(String userid, String appid, long timestamp, long start, long end, long last, long total){
         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
-        final String requestBody = "UserID=" + userid+ "&AppID=" + appid + "&Timestamp=" + timestamp + "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total;
+        final String requestBody = "UserID=" + userid+ "&AppID=" + appid + "&Timestamp=" + timestamp +
+                "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total;
+        //+ "&Launch=" + launch;
 
 
         MySingleton volley = MySingleton.getInstance(getApplicationContext());
@@ -120,8 +153,7 @@ public class displaydata extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.i("VOLLEY", response);
-               // Intent intent = new Intent(LoginActivity.this, displaydata.class);
-               // startActivity(intent);
+
             }
         }, new Response.ErrorListener() {
             @Override

@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 class UStats {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
@@ -45,7 +46,7 @@ class UStats {
         }
     }
 
-    public static List<UsageStats> getUsageStatsList(Context context){
+    public static Map<String,UsageStats> getUsageStatsList(Context context){
         UsageStatsManager usm = getUsageStatsManager(context);
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
@@ -55,7 +56,7 @@ class UStats {
         Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
         Log.d(TAG, "Range end:" + dateFormat.format(endTime));
 
-        List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,startTime,endTime);
+        Map<String,UsageStats> usageStatsList = usm.queryAndAggregateUsageStats(startTime,endTime);
         return usageStatsList;
     }
 
@@ -67,9 +68,9 @@ class UStats {
 
     }
 
-    public static void printCurrentUsageStatus(Context context){
-        printUsageStats(getUsageStatsList(context));
-    }
+   // public static void printCurrentUsageStatus(Context context){
+    //    printUsageStats(getUsageStatsList(context));
+    //}
     @SuppressWarnings("ResourceType")
     private static UsageStatsManager getUsageStatsManager(Context context){
         UsageStatsManager usm = (UsageStatsManager) context.getSystemService("usagestats");
