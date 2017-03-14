@@ -29,8 +29,13 @@ class UStats {
         int interval = UsageStatsManager.INTERVAL_YEARLY;
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.YEAR, -1);
-        long startTime = calendar.getTimeInMillis();
+        //calendar.add(Calendar.YEAR, -1);
+        Calendar constant_time = Calendar.getInstance();
+        constant_time.set(Calendar.DAY_OF_MONTH, 13);
+        constant_time.set(Calendar.HOUR_OF_DAY, 19);
+        constant_time.set(Calendar.MINUTE, 25);
+        constant_time.set(Calendar.SECOND, 0);
+        long startTime = constant_time.getTimeInMillis();
 
         Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
         Log.d(TAG, "Range end:" + dateFormat.format(endTime));
@@ -68,7 +73,7 @@ class UStats {
 
     }
 
-   // public static void printCurrentUsageStatus(Context context){
+    // public static void printCurrentUsageStatus(Context context){
     //    printUsageStats(getUsageStatsList(context));
     //}
     @SuppressWarnings("ResourceType")

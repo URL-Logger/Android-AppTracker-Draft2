@@ -3,147 +3,147 @@
 
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.1_279703c0ba14b1fb28e118a7aae6e1d1affdebbc/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_d400a0ce22f0e4f1f1205b98cf512e5c529ac56c/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_8346c5a8c40d2fdcd22bde99ec8c4a16de503320/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_37d88c9848dfd295e9495012bd742b665fdfb8b4/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_3fb8821bfb7f016ceb83a4d5525628f78604f748/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_b1e86415c6b66691b93b8661a47abdd6e34da7b4/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_79f6d9114da8e074b4e889ed35d7fd2464edf269/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_596be8f78f339bd73a9da035bbbb6969510f1cde/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.1/jars/classes.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.1_d5776bd96ce0a0afe04ff7f3b65e059a2d3f413d/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.1_dfa590a0dff33c697d3be2e238347a72f0fa0633/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="87471651385496c4fba4d6d2d28016be3c35581d">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_1247bffa6a391103fb7024b755e45897fbd19d40/classes.dex" />
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_3505f7b85fdb7a5e12f3d424f1f2232a4a2c3340/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.volley/volley/1.0.0/jars/classes.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.volley/volley/1.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.volley-volley-1.0.0_ea55059084e38391162fd96c30e9212d199f289c/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.volley-volley-1.0.0_4d3ff9287b80b90a91a8508e2dceafcf3eedd3ca/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/design/25.1.1/jars/classes.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0edccb6ffd39952cee870d551f93901b67426ae0">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_877d95a8fe5cd89c4cf1983972d04b6d5b79aac3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/design/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="cd7951e04cfb9a8bf008d544a478d9a8d8192d38">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.1_9d0c10099e9350637deb1e7272ec9316544b4f5e/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.1_4ec179cb661811c2559c5b23a6a93c8aca9d3ded/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="331f218cad7537f7a78a597b1ce87b57b83a9161">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_e9c49f039450ee09dbb94f80e81f570a75284b87/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_85724f253c85afa76041cfab7a3f69ec54ec9c0e/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_34ce54ad347fbafd25085187b877e8ad9260034d/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_0a9e51081adeedd5df61260fdab87e9ecfdde2c0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_4d2af79703a119b599c717070e6f32f27a58c2c4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.1_83342a3a29786d058148441c62a06429f6e04ce1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_e5b880a97f57968e3b31332e5cef487dc11f16c3/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_c1366447e36fab31d74f203a16faee710bb59ad4/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_7750d0f5d5c479d43574e5c3bb50f6014ef444c0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cedriclinares/Documents/adt-bundle-mac-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.1/support-annotations-25.1.1.jar"
+        jar="/Users/bereket/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.1/support-annotations-25.1.1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
-        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.1_30ec1e8eaa1e9dcd3eb72e3e1cd94df7d88e7485/classes.dex" />
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.1_515cd8950a105d1e19326e658f43da7c9b601241/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6896c434d6d84fc66ac20d9532d9ddb7af3f0510">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_15f07139e2922b96c3b9f6a341a3ef9c93641756/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_21edf171722aec7c10827a6b9fd6a5c1708a4b22/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_42bd75aa25fb67c2f907c84b2e9f05bf472dc5c1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="/Users/bereket/AndroidStudioProjects/release_one/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_9e2c41d1d60d88e7d97cbf268e33485244172ea2/classes.dex" />
     </item>
 
 </items>
