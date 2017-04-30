@@ -13,7 +13,38 @@ public class AppsUsageItem {
     public long lastStartup;
     public String lastStartupStr;
     public long fgTime;
-    public String fgTimeStr;
+    public long firsttime;
+    public long lastime;
+    public long currenttime;
+    public int mLaunchCount;
+
+    public String userid;
+
+    public int getlaunch() {
+        return mLaunchCount;
+    }
+
+
+    public String getpackagename() {
+        return appName ;
+    }
+    public long getfirsttime() {
+        return firsttime;
+    }
+
+    public long getlasttime() {
+        return lastime;
+    }
+
+    public long getlastused() {
+        return lastStartup;
+    }
+
+    public long getforeground() {
+        return fgTime;
+    }
+
+
 
     public static class AppNameComparator implements Comparator<AppsUsageItem> {
         private Collator mCollator = Collator.getInstance();

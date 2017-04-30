@@ -9,6 +9,7 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ class UStats {
     public static final String TAG = UStats.class.getSimpleName();
     @SuppressWarnings("ResourceType")
 
-    public static void getStats(Context context){
+    /*public static void getStats(Context context){
         UsageStatsManager usm = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         int interval = UsageStatsManager.INTERVAL_YEARLY;
         Calendar calendar = Calendar.getInstance();
@@ -49,13 +50,14 @@ class UStats {
                 Log.d(TAG, "Event: " + e.getPackageName() + "\t" +  e.getTimeStamp());
             }
         }
-    }
+    }*/
 
-    public static Map<String,UsageStats> getUsageStatsList(Context context){
-        UsageStatsManager usm = getUsageStatsManager(context);
+    public static Map<String,UsageStats> getUsageStatsList(MyService context){
+        UsageStatsManager usm = getUsageStatsManager((Context) context);
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
         calendar.add(Calendar.DAY_OF_YEAR, -1);
+        calendar.add(Calendar.HOUR_OF_DAY, 18);
         long startTime = calendar.getTimeInMillis();
 
         Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
