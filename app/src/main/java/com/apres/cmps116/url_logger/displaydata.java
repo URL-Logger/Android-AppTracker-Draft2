@@ -46,6 +46,7 @@ import com.google.gson.reflect.TypeToken;
 
 import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * Created by cedriclinares on 2/18/17.
@@ -53,14 +54,7 @@ import android.widget.Toast;
 
 public class displaydata extends AppCompatActivity {
 
-    Button statsBtn;
-    LinearLayout statslist;
-    private RequestQueue mRequestQueue;
-    private PendingIntent pendingIntent;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    private Context context;
-
+    ToggleButton statsBtn;
     public static final String PREFRENCES_FILE_NAME = "MyAppPreferences";
 
     @Override
@@ -68,45 +62,31 @@ public class displaydata extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_data);
-        //setAlarm();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        statslist = (LinearLayout) findViewById(R.id.statslayout);
-
-                statsBtn = (Button) findViewById(R.id.stats_btn);
-                statsBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startService(new Intent(displaydata.this, MyService.class));
-
-
-                    }
-                });
+        final Intent serviceIntent = new Intent (displaydata.this, MyService.class);
+        statsBtn = (ToggleButton) findViewById(R.id.stats_btn);
+        statsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (statsBtn.isChecked()){
+                    statsBtn.setTextOn("On");
+                    statsBtn.setChecked(true);
+                    startService(serviceIntent);
+                }
+                else{
+                    statsBtn.setTextOff("Off");
+                    statsBtn.setChecked(false);
+                    stopService(serviceIntent);
+                }
+            }
+        });
     }
 
-    /*void setAlarm() {
-        Intent alarmIntent = new Intent(displaydata.this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(displaydata.this, 0, alarmIntent, 0);
-
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60 * 60 * 12;
-
-        /*//* Set the alarm to start at 10:30 AM *//**//*
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 30);
-
-        /*//* Repeating on every 12 hours interval *//**//*
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                interval, pendingIntent);
-
-    }*/
-
-    }
+}
 
 

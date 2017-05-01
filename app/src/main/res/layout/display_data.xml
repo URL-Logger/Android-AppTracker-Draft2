@@ -9,65 +9,36 @@
                   android:background="#87CEFA">
 
 
-
     <ImageView android:src="@drawable/display"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="100dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_gravity="center_horizontal"
-                        android:paddingTop="5dp"/>
+               android:layout_width="200dp"
+               android:layout_height="200dp"
+               android:layout_gravity="center"
+               android:layout_marginTop="100dp"
+               android:layout_marginBottom="16dp"
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+               android:paddingTop="5dp"/>
+
+    <ToggleButton
+        android:textOn="On"
+        android:textOff="Off"
+        android:layout_width="188dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:id="@+id/stats_btn"/>
+
+    <!--<Button
+        android:layout_width="188dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:id="@+id/stats_btn"
         android:text="Send Stats"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:textColor="#fff"
         android:background="@drawable/round_button"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="170dp"
-        android:layout_marginLeft="170dp"/>
-    <RelativeLayout
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginLeft="0dp"
-        android:background="#000080"
-        android:gravity="center"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/footer_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="URL-Logger"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_marginBottom="7dp"
-            android:textSize="25sp"/>
-    </RelativeLayout>
-
-
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/statslayout"
-            android:orientation="vertical"/>
-    </ScrollView>
-
-
+        android:layout_marginLeft="170dp"/>-->
 
 
 </LinearLayout>

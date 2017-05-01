@@ -67,8 +67,7 @@ public class MyService extends Service {
     SharedPreferences.Editor editor;
     private RequestQueue mRequestQueue;
 
-    //displaydata send;
-
+   Timer mTimer = new Timer();
 
 
     // Unique Identification Number for the Notification.
@@ -80,10 +79,6 @@ public class MyService extends Service {
      * runs in the same process as its clients, we don't need to deal with
      * IPC.
      */
-    /*public MyService(displaydata context) {
-        send=context;
-    }*/
-
 
     public class LocalBinder extends Binder {
         MyService getService() {
@@ -138,11 +133,10 @@ public class MyService extends Service {
         @Override
         public void run() {
 
-            new Timer().scheduleAtFixedRate(new TimerTask() {
+            mTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
-                    // statslist.removeAllViews();
                     int count=0;
                     List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
                     PackageManager pm = getPackageManager();
@@ -152,7 +146,6 @@ public class MyService extends Service {
                         item.firsttime = usage.getFirstTimeStamp();
                         item.lastime = usage.getLastTimeUsed();
                         item.currenttime = System.currentTimeMillis();
-                        // if (item.pkgName.equals("com.miniclip.eightballpool")){
                         Field mLaunchCount = null;
                         try {
                             mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
@@ -160,58 +153,27 @@ public class MyService extends Service {
                         } catch (NoSuchFieldException e) {
                             e.printStackTrace();
                         }
-                        int launchCount = 0;
-                        try {
-                            launchCount = (Integer)mLaunchCount.get(usage);
-                            //    Log.d("Eightball", "Count: " + launchCount);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        //  Log.d("Countcheck", usageStatsList)
 
-                        // }
                         item.lastStartup = usage.getLastTimeUsed();
                         item.fgTime = usage.getTotalTimeInForeground();
-                        //          item.lastStartupStr = getString(R.string.apps_usage_last_startup,
-                        //                 DateTimeUtils.generateFileName(item.lastStartup));
-                        //          item.fgTime = usage.getTotalTimeInForeground();
-                        //         item.fgTimeStr = getString(R.string.apps_usage_fg_time_used,
-                        //                 DateTimeUtils.getReadableTimeUsage(item.fgTime));
                         item.appName = item.pkgName;
-                        String userid = LoginActivity.userid;
-                        //Log.d("Count","" + userid);
-                        //sendData(userid,item.appName, item.currenttime, item.firsttime,
-                        //item.lastime, item.lastStartup, item.fgTime);
-                        //sendData(userid,item.appName, System.currentTimeMillis(), usage.getFirstTimeStamp(),
-                        //usage.getLastTimeStamp(), item.lastStartup, item.fgTime);
-
 
                         try {
                             item.appName = pm.getApplicationInfo(item.pkgName, 0).loadLabel(pm).toString();
                         } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();
                         }
-                        //saveResults(item);
-                        //getResults();
                         results.add(item);
-                        //saveResults(results);
-                        //*saveResults(userid, item.appName, item.currenttime, item.firsttime,
-                        //.lastime, item.lastStartup, item.fgTime);*//*
-                        //Log.d("test for results", "" +item.pkgName);
                     }
                     saveResults(results);
-                    //getResults();
                     Collections.sort(results, new AppsUsageItem.AppNameComparator());
 
                     Log.d("Count",""+count);
                     Log.d("test", "" + results);
-                    //UStats.printCurrentUsageStatus(displaydata.this);
                 }
             }, 0, 5000);//put here time 5000 milliseconds=5 second*/
-            stopSelf();
         }
     };
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -332,12 +294,15 @@ public class MyService extends Service {
     @Override
     public void onDestroy() {
         // Cancel the persistent notification.
-        this.isRunning = false;
         mNM.cancel(NOTIFICATION);
+        mTimer.cancel();
+        mTimer.purge();
+        this.isRunning = false;
+        this.thread.interrupt();
+
 
         // Tell the user we stopped.
-        showNotification();
-        Toast.makeText(this, "Has stopped", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Has stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
