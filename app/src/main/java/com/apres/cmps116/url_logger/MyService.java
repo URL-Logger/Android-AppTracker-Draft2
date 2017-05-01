@@ -34,6 +34,8 @@ import android.content.SharedPreferences;
 import com.android.volley.RequestQueue;
 import android.app.usage.UsageStats;
 import android.app.AlarmManager;
+import android.widget.ToggleButton;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -56,24 +58,20 @@ import java.util.List;
 public class MyService extends Service {
 
 
-    LinearLayout statslist;
     private NotificationManager mNM;
     private PendingIntent pendingIntent;
 
     private boolean isRunning;
     private Context context;
-    private Thread thread;
+    //private Thread thread;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private RequestQueue mRequestQueue;
-
-   Timer mTimer = new Timer();
-
-
     // Unique Identification Number for the Notification.
     // We use it on Notification start, and to cancel it.
     private int NOTIFICATION = R.string.local_service_started;
-
+    Timer timer = new Timer();
+    int tickCount;
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -86,24 +84,24 @@ public class MyService extends Service {
         }
     }
 
-
     @Override
     public void onCreate() {
+
 
         if (UStats.getUsageStatsList(this).isEmpty()){ //Check if permissions are granted
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intent);
         }
         Log.d("OnCreate", "Started Service");
-        this.context = this;
-        this.isRunning = false;
-        this.thread = new Thread(mytask);
+      //  this.context = this;
+     //   this.isRunning = false;
+     //   this.thread = new Thread(mytask);
 
-        Intent alarmIntent = new Intent(this.context, AlarmReceiver.class);
+       /* Intent alarmIntent = new Intent(this.context, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(MyService.this, 0, alarmIntent, 0);
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000;
+        int interval = 5000;
 
         //* Set the alarm to start at 10:30 AM *//*
         Calendar calendar = Calendar.getInstance();
@@ -112,82 +110,92 @@ public class MyService extends Service {
         calendar.set(Calendar.MINUTE, 30);
 
         //* Repeating on every 12 hours interval *//*
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                interval, pendingIntent);
+       manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                interval, pendingIntent);*/
 
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         //startService(new Intent(String.valueOf(MyService.class)));
         Log.d("OnCreate", "Before Notification");
         // Display a notification about us starting.  We put an icon in the status bar.
-        showNotification();
+       // showNotification();
         Log.d("OnCreate", "After Notification");
     }
 
-    private Runnable mytask = new Runnable() {
-        @Override
-        public void run() {
+    //private Runnable mytask = new Runnable() {
+     //   @Override
+    //    public void run() {
+    void CollectData(){
 
-            mTimer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
-                @Override
-                public void run() {
-                    Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
-                    int count=0;
-                    List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
-                    PackageManager pm = getPackageManager();
-                    for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
-                        AppsUsageItem item = new AppsUsageItem();
-                        item.pkgName = usage.getPackageName();
-                        item.firsttime = usage.getFirstTimeStamp();
-                        item.lastime = usage.getLastTimeUsed();
-                        item.currenttime = System.currentTimeMillis();
-                        Field mLaunchCount = null;
-                        try {
-                            mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
+        tickCount=0;
+            timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
+                    @Override
+                    public void run() {
+                        Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
+                        int count=0;
+                        List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
+                        PackageManager pm = getPackageManager();
+                        for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
+                            AppsUsageItem item = new AppsUsageItem();
+                            item.pkgName = usage.getPackageName();
+                            item.firsttime = usage.getFirstTimeStamp();
+                            item.lastime = usage.getLastTimeUsed();
+                            item.currenttime = System.currentTimeMillis();
+                            Field mLaunchCount = null;
+                            try {
+                                mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
 
-                        } catch (NoSuchFieldException e) {
-                            e.printStackTrace();
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
+
+                            item.lastStartup = usage.getLastTimeUsed();
+                            item.fgTime = usage.getTotalTimeInForeground();
+                            item.appName = item.pkgName;
+
+                            try {
+                                item.appName = pm.getApplicationInfo(item.pkgName, 0).loadLabel(pm).toString();
+                            } catch (PackageManager.NameNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            results.add(item);
                         }
+                        saveResults(results); //buffer results
+                        Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
-                        item.lastStartup = usage.getLastTimeUsed();
-                        item.fgTime = usage.getTotalTimeInForeground();
-                        item.appName = item.pkgName;
-
-                        try {
-                            item.appName = pm.getApplicationInfo(item.pkgName, 0).loadLabel(pm).toString();
-                        } catch (PackageManager.NameNotFoundException e) {
-                            e.printStackTrace();
+                        Log.d("Count",""+count);
+                        Log.d("test", "" + results);
+                        tickCount++;
+                        if (tickCount == 4){
+                            tickCount=0;
+                            getResults();
                         }
-                        results.add(item);
                     }
-                    saveResults(results); //buffer results
-                    Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
-
-                    Log.d("Count",""+count);
-                    Log.d("test", "" + results);
-                }
             }, 0, 5000);//put here time 5000 milliseconds=5 second*/
-        }
-    };
+
+    }
+
 
     @Override
     //When background service starts
     public int onStartCommand(Intent intent, int flags, int startId) {
-       if(!this.isRunning) {
-            this.isRunning = true;
-            thread.start();//start the task (collect data)
-        }
-        getResults(); //get saved results
+     Log.d("Start Command", "Inside");
+
+        //  if(!this.isRunning) {
+     //       this.isRunning = true;
+     //       this.thread.start();//start the task (collect data)
+     //   }
+        CollectData();
+      //  getResults(); //get saved results
         showNotification();
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
         Log.d("On alarm", "test two");
 
-        return START_STICKY; //Continues running when user leaves
+        return START_STICKY_COMPATIBILITY; //Continues running when user leaves
     }
 
     void test(Intent intent) {
         Log.d("alaram test", "");
-        //getResults();
     }
 
     void saveResults(List results) { //buffer app results
@@ -199,8 +207,6 @@ public class MyService extends Service {
         editor = sharedPreferences.edit();
         editor.putString("AppsUsageItem", String.valueOf(json));
         editor.commit();
-        //Log.d("test for shared", String.valueOf(json));
-        //getResults();
     }
 
     void getResults() { //Get results back
@@ -288,13 +294,14 @@ public class MyService extends Service {
     public void onDestroy() { //Destroys background function
         // Cancel the persistent notification.
         mNM.cancel(NOTIFICATION);
-        mTimer.cancel();
-        mTimer.purge();
-        this.isRunning = false;
-        this.thread.interrupt();
+        timer.cancel();
+        timer.purge();
+  //      this.isRunning = false;
+      //  this.thread.interrupt();
 
         //Tell the user we stopped.
         Toast.makeText(this, "Service has stopped", Toast.LENGTH_SHORT).show();
+        super.onDestroy();
     }
 
     @Override
