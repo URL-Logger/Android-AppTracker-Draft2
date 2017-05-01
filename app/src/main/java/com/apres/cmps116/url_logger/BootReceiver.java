@@ -9,6 +9,8 @@ import android.widget.Toast;
  * Created by cedriclinares on 4/30/17.
  */
 
+// Logic to deal with collecting data on boot
+
 public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         Toast.makeText(context, "On Boot method", Toast.LENGTH_LONG).show();

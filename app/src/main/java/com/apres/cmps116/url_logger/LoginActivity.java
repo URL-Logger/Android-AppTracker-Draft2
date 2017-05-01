@@ -43,10 +43,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -84,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String responseString;
     private char responseChar;
     static String userid;
+    static int usernum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,11 +211,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+            Toast.makeText(LoginActivity.this, "canceled", Toast.LENGTH_LONG).show();
         }
         else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+            Log.d("Login Activity", "After animation");
             String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/login.php";
             final String requestBody = "user=" + email + "&pass=" + password;
 
@@ -227,10 +226,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 // Request a string response from the provided URL.
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
-                public void onResponse(String response) {
+                public void onResponse(String response) { //Check for user validation here
                     Log.i("VOLLEY", response);
-                    Intent intent = new Intent(LoginActivity.this, displaydata.class);
-                    startActivity(intent);
+                    if(usernum > 0) {
+                        Intent intent = new Intent(LoginActivity.this, displaydata.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        showProgress(false);
+                        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(LoginActivity.this, "Incorrect Username or Password", Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -256,14 +263,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
                     if (response != null) {
-
                         responseChar = (char) response.data[0];
                         userid = String.valueOf(responseChar);
+                        usernum = Integer.parseInt(userid);
                         responseString = String.valueOf(response.data[0]);
-
-
-
-                        // can get more details such as response.headers
                     }
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
                 }

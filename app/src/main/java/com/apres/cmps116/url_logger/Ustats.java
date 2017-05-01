@@ -24,41 +24,16 @@ class UStats {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
     public static final String TAG = UStats.class.getSimpleName();
     @SuppressWarnings("ResourceType")
+    static long startTime = 1483228800;
 
-    /*public static void getStats(Context context){
-        UsageStatsManager usm = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
-        int interval = UsageStatsManager.INTERVAL_YEARLY;
-        Calendar calendar = Calendar.getInstance();
-        long endTime = calendar.getTimeInMillis();
-        //calendar.add(Calendar.YEAR, -1);
-        Calendar constant_time = Calendar.getInstance();
-        constant_time.set(Calendar.DAY_OF_MONTH, 13);
-        constant_time.set(Calendar.HOUR_OF_DAY, 19);
-        constant_time.set(Calendar.MINUTE, 25);
-        constant_time.set(Calendar.SECOND, 0);
-        long startTime = constant_time.getTimeInMillis();
-
-        Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
-        Log.d(TAG, "Range end:" + dateFormat.format(endTime));
-
-        UsageEvents uEvents = usm.queryEvents(startTime,endTime);
-        while (uEvents.hasNextEvent()){
-            UsageEvents.Event e = new UsageEvents.Event();
-            uEvents.getNextEvent(e);
-
-            if (e != null){
-                Log.d(TAG, "Event: " + e.getPackageName() + "\t" +  e.getTimeStamp());
-            }
-        }
-    }*/
-
+    //This function is what aggregates all of the usage stats together
     public static Map<String,UsageStats> getUsageStatsList(MyService context){
         UsageStatsManager usm = getUsageStatsManager((Context) context);
         Calendar calendar = Calendar.getInstance();
         long endTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
-        calendar.add(Calendar.HOUR_OF_DAY, 18);
-        long startTime = calendar.getTimeInMillis();
+         //January 1st 2017
+
+        if (endTime==startTime+31536000) {startTime = endTime;}
 
         Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
         Log.d(TAG, "Range end:" + dateFormat.format(endTime));
@@ -75,9 +50,6 @@ class UStats {
 
     }
 
-    // public static void printCurrentUsageStatus(Context context){
-    //    printUsageStats(getUsageStatsList(context));
-    //}
     @SuppressWarnings("ResourceType")
     private static UsageStatsManager getUsageStatsManager(Context context){
         UsageStatsManager usm = (UsageStatsManager) context.getSystemService("usagestats");

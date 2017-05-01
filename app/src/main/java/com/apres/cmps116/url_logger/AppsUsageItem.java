@@ -23,23 +23,18 @@ public class AppsUsageItem {
     public int getlaunch() {
         return mLaunchCount;
     }
-
-
     public String getpackagename() {
         return appName ;
     }
     public long getfirsttime() {
         return firsttime;
     }
-
     public long getlasttime() {
         return lastime;
     }
-
     public long getlastused() {
         return lastStartup;
     }
-
     public long getforeground() {
         return fgTime;
     }

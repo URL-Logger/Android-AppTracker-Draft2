@@ -11,8 +11,7 @@ import android.widget.Toast;
  * Created by bereket on 4/24/17.
  */
 
-public class AlarmReceiver extends BroadcastReceiver{
-
+public class AlarmReceiver extends BroadcastReceiver{ //logic for buffering
 
     @Override
     public void onReceive(Context context, Intent intent) {

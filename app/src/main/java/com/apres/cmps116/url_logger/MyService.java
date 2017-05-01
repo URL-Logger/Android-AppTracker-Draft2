@@ -90,11 +90,10 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
 
-        if (UStats.getUsageStatsList(this).isEmpty()){
+        if (UStats.getUsageStatsList(this).isEmpty()){ //Check if permissions are granted
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intent);
         }
-        //Toast.makeText(context, " test", Toast.LENGTH_SHORT);
         Log.d("OnCreate", "Started Service");
         this.context = this;
         this.isRunning = false;
@@ -123,24 +122,20 @@ public class MyService extends Service {
         // Display a notification about us starting.  We put an icon in the status bar.
         showNotification();
         Log.d("OnCreate", "After Notification");
-
-        //getResults();
-
     }
-
 
     private Runnable mytask = new Runnable() {
         @Override
         public void run() {
 
-            mTimer.scheduleAtFixedRate(new TimerTask() {
+            mTimer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                 @Override
                 public void run() {
-                    Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
+                    Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
                     int count=0;
                     List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
                     PackageManager pm = getPackageManager();
-                    for (UsageStats usage : usageStatsList.values()) {
+                    for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
                         AppsUsageItem item = new AppsUsageItem();
                         item.pkgName = usage.getPackageName();
                         item.firsttime = usage.getFirstTimeStamp();
@@ -165,8 +160,8 @@ public class MyService extends Service {
                         }
                         results.add(item);
                     }
-                    saveResults(results);
-                    Collections.sort(results, new AppsUsageItem.AppNameComparator());
+                    saveResults(results); //buffer results
+                    Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
                     Log.d("Count",""+count);
                     Log.d("test", "" + results);
@@ -176,25 +171,26 @@ public class MyService extends Service {
     };
 
     @Override
+    //When background service starts
     public int onStartCommand(Intent intent, int flags, int startId) {
        if(!this.isRunning) {
             this.isRunning = true;
-            thread.start();
+            thread.start();//start the task (collect data)
         }
-        //test();
-        getResults();
+        getResults(); //get saved results
         showNotification();
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
         Log.d("On alarm", "test two");
 
-        return START_STICKY;
+        return START_STICKY; //Continues running when user leaves
     }
 
     void test(Intent intent) {
         Log.d("alaram test", "");
         //getResults();
     }
-    void saveResults(List results) {
+
+    void saveResults(List results) { //buffer app results
 
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -207,7 +203,7 @@ public class MyService extends Service {
         //getResults();
     }
 
-    void getResults() {
+    void getResults() { //Get results back
 
         Gson gson = new Gson();
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
@@ -230,13 +226,10 @@ public class MyService extends Service {
             long last = item.lastStartup;
             long total = item.fgTime;
             int count = item.mLaunchCount;
-            /*Log.d("test for shared", String.valueOf(time));
-            Log.d("test for shared", String.valueOf(appid));*/
-            sendData(userid,appid, start, end,last, total, count);
+            sendData(userid,appid, start, end,last, total, count); //send data to database
         }
 
     }
-
 
      void sendData(String userid, String appid,  long start, long end, long last, long total, int launch) {
 
@@ -248,7 +241,7 @@ public class MyService extends Service {
 
          MySingleton volley = MySingleton.getInstance(getApplicationContext());
          mRequestQueue = volley.getRequestQueue();
-// Request a string response from the provided URL.
+            // Request a string response from the provided URL.
          StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
              @Override
              public void onResponse(String response) {
@@ -286,13 +279,13 @@ public class MyService extends Service {
                  return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
              }
          };
-         mRequestQueue.add(stringRequest);
+         mRequestQueue.add(stringRequest);//add request to queue
      }
 
 
 
     @Override
-    public void onDestroy() {
+    public void onDestroy() { //Destroys background function
         // Cancel the persistent notification.
         mNM.cancel(NOTIFICATION);
         mTimer.cancel();
@@ -300,9 +293,8 @@ public class MyService extends Service {
         this.isRunning = false;
         this.thread.interrupt();
 
-
-        // Tell the user we stopped.
-        //Toast.makeText(this, "Has stopped", Toast.LENGTH_SHORT).show();
+        //Tell the user we stopped.
+        Toast.makeText(this, "Service has stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -317,15 +309,14 @@ public class MyService extends Service {
     /**
      * Show a notification while this service is running.
      */
-    private void showNotification() {
-        // In this sample, we'll use the same text for the ticker and the expanded notification
+    private void showNotification() { //details for notification
+
         CharSequence text = getText(R.string.local_service_started);
 
-        // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, displaydata.class), 0);
 
-        // Set the info for the views that show in the notification panel.
+        // Set info for the views that show in the notification panel.
         Notification notification = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)  // the status icon
                 .setTicker(text)  // the status text
