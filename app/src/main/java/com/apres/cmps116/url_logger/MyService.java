@@ -4,25 +4,18 @@ package com.apres.cmps116.url_logger;
  * Created by cedriclinares on 3/1/17.
  */
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map;
@@ -32,14 +25,10 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import android.content.SharedPreferences;
 import com.android.volley.RequestQueue;
-import android.app.usage.UsageStats;
-import android.app.AlarmManager;
-import android.widget.ToggleButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -49,21 +38,13 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.UnsupportedEncodingException;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
-
-import java.util.Calendar;
 import java.util.List;
 
 public class MyService extends Service {
 
 
     private NotificationManager mNM;
-    private PendingIntent pendingIntent;
-
-    private boolean isRunning;
-    private Context context;
-    //private Thread thread;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private RequestQueue mRequestQueue;
@@ -93,38 +74,13 @@ public class MyService extends Service {
             startActivity(intent);
         }
         Log.d("OnCreate", "Started Service");
-      //  this.context = this;
-     //   this.isRunning = false;
-     //   this.thread = new Thread(mytask);
-
-       /* Intent alarmIntent = new Intent(this.context, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(MyService.this, 0, alarmIntent, 0);
-
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 5000;
-
-        //* Set the alarm to start at 10:30 AM *//*
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 30);
-
-        //* Repeating on every 12 hours interval *//*
-       manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                interval, pendingIntent);*/
-
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        //startService(new Intent(String.valueOf(MyService.class)));
         Log.d("OnCreate", "Before Notification");
         // Display a notification about us starting.  We put an icon in the status bar.
-       // showNotification();
         Log.d("OnCreate", "After Notification");
     }
 
-    //private Runnable mytask = new Runnable() {
-     //   @Override
-    //    public void run() {
     void CollectData(){
 
         tickCount=0;
@@ -181,12 +137,7 @@ public class MyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
      Log.d("Start Command", "Inside");
 
-        //  if(!this.isRunning) {
-     //       this.isRunning = true;
-     //       this.thread.start();//start the task (collect data)
-     //   }
         CollectData();
-      //  getResults(); //get saved results
         showNotification();
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
         Log.d("On alarm", "test two");
@@ -296,8 +247,6 @@ public class MyService extends Service {
         mNM.cancel(NOTIFICATION);
         timer.cancel();
         timer.purge();
-  //      this.isRunning = false;
-      //  this.thread.interrupt();
 
         //Tell the user we stopped.
         Toast.makeText(this, "Service has stopped", Toast.LENGTH_SHORT).show();
