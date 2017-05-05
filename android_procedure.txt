@@ -1,0 +1,37 @@
+Raw Data: (list of usage information for each application on the device during the requested interval)
+  Application ID - Internal name of the application.
+  Start Time - The time at the start of the 5 second interval in milliseconds.
+  End Time - The time at the end of the 5 second interval in milliseconds.
+  Total Time - The absolute total time that the application has been in the foreground in seconds.
+  Last Time - The time that the applicaiton was last opened (units not known).
+  Launch Count - The number of times the application was launched within the interval.
+  
+Procedure:
+  Every 5 seconds, we obtain a list of application activity within the preceeding interval.
+  We maintain two copies of this list: one for the current interval and one for the previous.
+  
+  We maintain two buffers:
+    - The Open Buffer is a list of applications that are currently in the foreground (should only have 1 entry at a time).
+    - The Output Buffer is a list of application sessions that are waiting to be sent to the server.
+
+  Each time we collect application activity,
+  
+  If the Total Time of the current interval is not the same as the previous,
+    and the application is not in the Open Buffer, we add it to the buffer.
+  The Open Buffer record contains the App ID, Start Time, End Time, Total Time, and Last Time of the current interval.
+  
+  For each application in the Open Buffer, we compare the current and previous Total Time.
+  If the times are not the same, then the application was in the foreground during the interval, and we update the End Time and Total Time records.
+  
+  When the application is closed, we move the record from the Open Buffer to the Output Buffer.
+  Before adding to the Output Buffer, all timestamps are converted from milliseconds into seconds, and from 64-bit integers to 32-bit integers.
+  
+  Once per day, or when the Output Buffer is full, we send the Output Buffer to the server and clear the Output Buffer.
+  
+Collected Data:
+  Each entry in the database contains a single instance of application foreground usage.
+    Application ID - the internal name of the application.
+    Start Time - the timestamp at which the session started (accurate to 5 seconds).
+    End Time - the timestamp at which the session ended (accurate to 5 seconds).
+    Total Time - the absolute time that the application has been in the foreground in seconds.
+    Last Time - the timestamp at which the application was previously launched.
