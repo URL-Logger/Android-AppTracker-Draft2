@@ -17,6 +17,7 @@ public class AppsUsageItem {
     public long lastime;
     public long currenttime;
     public int mLaunchCount;
+    //public int launchCount;
 
     public String userid;
 
