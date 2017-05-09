@@ -3,6 +3,7 @@
 
     <item
         is-multidex="true"
+<<<<<<< HEAD
         jar="/Users/bereket/AndroidStudioProjects/buffer_three/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
@@ -18,6 +19,5 @@
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
         <dex dex="/Users/bereket/AndroidStudioProjects/buffer_three/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_df9e12c0205fd264392258516829d0b1f94888af/classes.dex" />
-    </item>
-
+     </item>
 </items>

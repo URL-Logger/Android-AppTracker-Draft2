@@ -28,6 +28,14 @@
         android:id="@+id/stats_btn"
         android:background="@drawable/activity_button"/>
 
+     <Button
+        android:id="@+id/logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="logoutUser"
+        android:text="@string/logout_button"
+        tools:ignore="HardcodedText" />
+
     <!--<Button
         android:layout_width="188dp"
         android:layout_height="50dp"

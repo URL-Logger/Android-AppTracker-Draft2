@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -82,10 +83,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     static String userid;
     static int usernum;
 
+    //Allows for login persistence
+    public static SharedPreferences loginSettings;
+    private static final String IS_LOGIN = "IsLoggedIn";
+    public static SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+        Check to see if a user was logged in prior
+         */
+        loginSettings = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        editor = loginSettings.edit();
+        if(loginSettings.getBoolean(IS_LOGIN, false)){
+            Intent intent = new Intent(LoginActivity.this, displaydata.class);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_login);
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -229,6 +246,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onResponse(String response) { //Check for user validation here
                     Log.i("VOLLEY", response);
                     if(usernum > 0) {
+                        editor.putBoolean(IS_LOGIN, true); //Update to reflect a user is currently signed in
+                        editor.commit();
                         Intent intent = new Intent(LoginActivity.this, displaydata.class);
                         startActivity(intent);
                     }
