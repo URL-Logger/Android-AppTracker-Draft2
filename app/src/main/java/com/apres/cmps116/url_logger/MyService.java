@@ -100,15 +100,23 @@ public class MyService extends Service {
                             //item.lastime = usage.getLastTimeUsed();
                             item.lastime = usage.getLastTimeStamp();
                             item.currenttime = System.currentTimeMillis();
-                            Field mLaunchCount = null;
 
+                            Field mLaunchCount = null;
                             try {
-                               mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
+                                mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
 
                             } catch (NoSuchFieldException e) {
                                 e.printStackTrace();
                             }
+                            int launchCount = 0;
+                            try {
+                                launchCount = (Integer)mLaunchCount.get(usage);
 
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            item.mLaunchCount = launchCount;
                             item.lastStartup = usage.getLastTimeUsed();
                             item.fgTime = usage.getTotalTimeInForeground();
                             item.appName = item.pkgName;
@@ -166,7 +174,7 @@ public class MyService extends Service {
 
     void getResults() { //Get results back
 
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
         Gson gson = new Gson();
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
@@ -184,22 +192,25 @@ public class MyService extends Service {
             item.fgTime = results.get(i).fgTime;
             item.mLaunchCount = results.get(i).mLaunchCount;
             String appid = item.appName;
-            String start = dateFormat.format(item.firsttime);
-            String end = dateFormat.format(item.lastime);
-            String last = dateFormat.format(item.lastStartup);
+            //String start = dateFormat.format(item.firsttime);
+            String start =simpleDateFormat.format(item.firsttime);
+            Log.d("test", start);
+            String end = simpleDateFormat.format(item.lastime);
+            String last = simpleDateFormat.format(item.lastStartup);
+            Log.d("test", last);
             long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
-            //int count = item.mLaunchCount;
-            sendData(userid,appid, start, end,last, total); //send data to database
+            int count = item.mLaunchCount;
+            sendData(userid,appid, start, end,last, total, count); //send data to database
         }
 
     }
 
-     void sendData(String userid, String appid,  String start, String end,String last, long total) {
+     void sendData(String userid, String appid,  String start, String end,String last, long total, int launch) {
 
          String url = "http://utelem.jaradshelton.com/post_android.php";
          final String requestBody = "UserID=" + userid+ "&AppID=" + appid +
-                 "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total;
-         //+ "&Launch=" + launch;
+                 "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total
+         + "&Launch=" + launch;
 
 
          MySingleton volley = MySingleton.getInstance(getApplicationContext());
