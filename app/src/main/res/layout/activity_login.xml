@@ -9,10 +9,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.apres.cmps116.url_logger.LoginActivity"
-    android:background="#87CEFA"
+    android:background="@drawable/gradient_color"
     android:fitsSystemWindows="true">
 
-    <ImageView android:src="@drawable/utelem"
+    <ImageView android:src="@drawable/utelem_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -36,7 +36,8 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:weightSum="1"
-            android:textSize="18dp">
+            android:textSize="18dp"
+            >
 
 
             <android.support.design.widget.TextInputLayout
@@ -52,7 +53,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textSize="24dp"
-                    android:drawableTint="#FF4081"
+                    android:textColor="#3e3438"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
                     android:singleLine="true"/>
@@ -77,6 +78,7 @@
                     android:maxLines="1"
                     android:layout_marginTop="100dp"
                     android:textSize="24dp"
+                    android:textColor="@color/colorAccent"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
                     android:singleLine="true"/>
@@ -86,17 +88,19 @@
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="149dp"
                 android:layout_height="wrap_content"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
                 android:textSize="18dp"
-                android:textColor="#fff"
-                android:background="#0000CD"
+                android:textColor="#583f3f"
+                android:layout_gravity="center"
+                android:background="@drawable/activity_button"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"/>
+                android:layout_marginRight="130dp"
+                android:layout_marginLeft="130dp"
+                />
 
             <TextView
                 android:id="@+id/privacypolicy"

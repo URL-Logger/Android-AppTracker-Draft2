@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map;
@@ -40,6 +41,7 @@ import java.io.UnsupportedEncodingException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MyService extends Service {
 
@@ -95,8 +97,10 @@ public class MyService extends Service {
                             AppsUsageItem item = new AppsUsageItem();
                             item.pkgName = usage.getPackageName();
                             item.firsttime = usage.getFirstTimeStamp();
-                            item.lastime = usage.getLastTimeUsed();
+                            //item.lastime = usage.getLastTimeUsed();
+                            item.lastime = usage.getLastTimeStamp();
                             item.currenttime = System.currentTimeMillis();
+
                             Field mLaunchCount = null;
                             try {
                                 mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
@@ -104,7 +108,15 @@ public class MyService extends Service {
                             } catch (NoSuchFieldException e) {
                                 e.printStackTrace();
                             }
+                            int launchCount = 0;
+                            try {
+                                launchCount = (Integer)mLaunchCount.get(usage);
 
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            item.mLaunchCount = launchCount;
                             item.lastStartup = usage.getLastTimeUsed();
                             item.fgTime = usage.getTotalTimeInForeground();
                             item.appName = item.pkgName;
@@ -127,7 +139,7 @@ public class MyService extends Service {
                             getResults();
                         }
                     }
-            }, 0, 5000);//put here time 5000 milliseconds=5 second*/
+            }, 0, 5000 );//put here time 5000 milliseconds=5 second*/
 
     }
 
@@ -154,13 +166,15 @@ public class MyService extends Service {
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = gson.toJson(results);
-
+        Log.d("Json test", json);
         editor = sharedPreferences.edit();
         editor.putString("AppsUsageItem", String.valueOf(json));
         editor.commit();
     }
 
     void getResults() { //Get results back
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
         Gson gson = new Gson();
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
@@ -178,17 +192,20 @@ public class MyService extends Service {
             item.fgTime = results.get(i).fgTime;
             item.mLaunchCount = results.get(i).mLaunchCount;
             String appid = item.appName;
-            long start = item.firsttime;
-            long end = item.lastime;
-            long last = item.lastStartup;
-            long total = item.fgTime;
+            //String start = dateFormat.format(item.firsttime);
+            String start =simpleDateFormat.format(item.firsttime);
+            Log.d("test", start);
+            String end = simpleDateFormat.format(item.lastime);
+            String last = simpleDateFormat.format(item.lastStartup);
+            Log.d("test", last);
+            long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
             int count = item.mLaunchCount;
             sendData(userid,appid, start, end,last, total, count); //send data to database
         }
 
     }
 
-     void sendData(String userid, String appid,  long start, long end, long last, long total, int launch) {
+     void sendData(String userid, String appid,  String start, String end,String last, long total, int launch) {
 
          String url = "http://utelem.jaradshelton.com/post_android.php";
          final String requestBody = "UserID=" + userid+ "&AppID=" + appid +

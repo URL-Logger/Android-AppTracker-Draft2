@@ -30,6 +30,7 @@ class UStats {
     public static Map<String,UsageStats> getUsageStatsList(MyService context){
         UsageStatsManager usm = getUsageStatsManager((Context) context);
         Calendar calendar = Calendar.getInstance();
+        //long startTime = calendar.getTimeInMillis();
         long endTime = calendar.getTimeInMillis();
          //January 1st 2017
 
@@ -41,6 +42,7 @@ class UStats {
         Map<String,UsageStats> usageStatsList = usm.queryAndAggregateUsageStats(startTime,endTime);
         return usageStatsList;
     }
+
 
     public static void printUsageStats(List<UsageStats> usageStatsList){
         for (UsageStats u : usageStatsList){
