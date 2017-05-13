@@ -150,8 +150,9 @@ public class MyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
      Log.d("Start Command", "Inside");
 
-        CollectData();
         showNotification();
+        CollectData();
+
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
         Log.d("On alarm", "test two");
 
