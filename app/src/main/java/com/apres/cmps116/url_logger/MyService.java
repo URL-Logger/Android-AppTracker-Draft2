@@ -126,8 +126,11 @@ public class MyService extends Service {
                             } catch (PackageManager.NameNotFoundException e) {
                                 e.printStackTrace();
                             }
-                            results.add(item);
+
+                                results.add(item);
+
                         }
+
                         saveResults(results); //buffer results
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
@@ -201,7 +204,9 @@ public class MyService extends Service {
             Log.d("test", last);
             long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
             int count = item.mLaunchCount;
-            sendData(userid,appid, start, end,last, total, count); //send data to database
+            if(item.appName.equals("com.apres.cmps116.url_logger")) {
+                sendData(userid, appid, start, end, last, total, count); //send data to database
+            }
         }
 
     }
