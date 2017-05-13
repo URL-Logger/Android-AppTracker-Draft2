@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map;
@@ -97,8 +98,8 @@ public class MyService extends Service {
                             AppsUsageItem item = new AppsUsageItem();
                             item.pkgName = usage.getPackageName();
                             item.firsttime = usage.getFirstTimeStamp();
-                            //item.lastime = usage.getLastTimeUsed();
-                            item.lastime = usage.getLastTimeStamp();
+                            item.lastime = usage.getLastTimeUsed();
+                            //item.lastime = usage.getLastTimeStamp();
                             item.currenttime = System.currentTimeMillis();
 
                             Field mLaunchCount = null;
@@ -195,7 +196,7 @@ public class MyService extends Service {
             //String start = dateFormat.format(item.firsttime);
             String start =simpleDateFormat.format(item.firsttime);
             Log.d("test", start);
-            String end = simpleDateFormat.format(item.lastime);
+            String end = simpleDateFormat.format(Calendar.getInstance().getTimeInMillis());
             String last = simpleDateFormat.format(item.lastStartup);
             Log.d("test", last);
             long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
