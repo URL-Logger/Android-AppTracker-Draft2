@@ -46,6 +46,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private String responseString;
-    private char responseChar;
     static String userid;
     static int usernum;
 
@@ -282,10 +282,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
                     if (response != null) {
-                        responseChar = (char) response.data[0];
-                        userid = String.valueOf(responseChar);
+                        responseString = new String(response.data);
+                        userid = responseString;
                         usernum = Integer.parseInt(userid);
-                        responseString = String.valueOf(response.data[0]);
                     }
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
                 }
