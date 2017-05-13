@@ -1,47 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                   android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
                   android:paddingRight="@dimen/activity_horizontal_margin"
                   android:paddingTop="@dimen/activity_vertical_margin"
                   android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".displaydata"
-                  android:orientation="vertical"
-                  android:background="@drawable/gradient_color">
+    android:background="@drawable/gradient_color"
+    android:orientation="vertical">
+
 
     <Button
         android:id="@+id/logout_btn"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:background="@drawable/logout_button"
         android:onClick="logoutUser"
+        android:src="@drawable/logout_logo"
         android:text="@string/logout_button"
         tools:ignore="HardcodedText"
-        android:background="@drawable/logout_button"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/logout_logo"
-        android:layout_gravity="right"
-        />
-
+        android:layout_marginEnd="31dp"
+        android:layout_alignBaseline="@+id/stats_btn"
+        android:layout_alignBottom="@+id/stats_btn"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="100dp"
 
         android:paddingTop="5dp"
-        android:src="@drawable/utelem_two" />
+        android:src="@drawable/utelem_two"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <ToggleButton
-        android:textOn="On"
-        android:textOff="Off"
+        android:id="@+id/stats_btn"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:id="@+id/stats_btn"
-        android:background="@drawable/activity_button"/>
-       <!-- android:layout_marginTop="150dp"-->
+        android:background="@drawable/activity_button"
+        android:textOff="On"
+        android:textOn="Off"
+        android:layout_marginBottom="53dp"
+        android:layout_marginStart="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="Data Tracking is:"
+        android:textSize="18sp"
+        tools:text="Data Tracking is:"
+        android:layout_marginStart="23dp"
+        android:layout_below="@+id/imageView"
+        android:layout_alignStart="@+id/stats_btn"
+        android:layout_marginTop="62dp" />
+
+    <TextView
+        android:id="@+id/tracking_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:fontFamily="monospace"
+        android:text="OFF"
+        android:textSize="18sp"
+        tools:text="OFF" />
+
+    <!-- android:layout_marginTop="150dp"-->
 
 
      <!--<Button
@@ -70,4 +101,4 @@
         android:layout_marginLeft="170dp"/>-->
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -204,9 +204,7 @@ public class MyService extends Service {
             Log.d("test", last);
             long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
             int count = item.mLaunchCount;
-            if(item.appName.equals("com.apres.cmps116.url_logger")) {
                 sendData(userid, appid, start, end, last, total, count); //send data to database
-            }
         }
 
     }
