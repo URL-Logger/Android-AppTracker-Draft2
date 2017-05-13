@@ -19,6 +19,7 @@ public class displaydata extends AppCompatActivity {
 
     ToggleButton statsBtn;
     public static final String PREFRENCES_FILE_NAME = "MyAppPreferences";
+    Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class displaydata extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final Intent serviceIntent = new Intent (displaydata.this, MyService.class);
+        serviceIntent = new Intent (displaydata.this, MyService.class);
         statsBtn = (ToggleButton) findViewById(R.id.stats_btn);
         /*
         Toggle the button if it was previously toggled before the app closed
@@ -65,6 +66,7 @@ public class displaydata extends AppCompatActivity {
     public void logoutUser(View view){
         LoginActivity.editor.clear();
         LoginActivity.editor.commit();
+        stopService(serviceIntent);     //Turn off data collection when we log out
 
         Intent intent = new Intent(displaydata.this, LoginActivity.class);
         startActivity(intent);
