@@ -99,7 +99,6 @@ public class MyService extends Service {
                             item.pkgName = usage.getPackageName();
                             item.firsttime = usage.getFirstTimeStamp();
                             item.lastime = usage.getLastTimeUsed();
-                            //item.lastime = usage.getLastTimeStamp();
                             item.currenttime = System.currentTimeMillis();
 
                             Field mLaunchCount = null;
@@ -118,7 +117,7 @@ public class MyService extends Service {
                             }
 
                             item.mLaunchCount = launchCount;
-                            item.lastStartup = usage.getLastTimeUsed();
+                            item.lastStartup = System.currentTimeMillis();
                             item.fgTime = usage.getTotalTimeInForeground();
                             item.appName = item.pkgName;
 
@@ -197,8 +196,8 @@ public class MyService extends Service {
             //String start = dateFormat.format(item.firsttime);
             String start =simpleDateFormat.format(item.firsttime);
             Log.d("test", start);
-            String end = simpleDateFormat.format(Calendar.getInstance().getTimeInMillis());
-            String last = simpleDateFormat.format(item.lastStartup);
+            String end = simpleDateFormat.format(item.lastStartup);
+            String last = simpleDateFormat.format(item.lastime);
             Log.d("test", last);
             long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
             int count = item.mLaunchCount;
