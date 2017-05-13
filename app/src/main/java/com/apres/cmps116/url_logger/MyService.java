@@ -208,7 +208,7 @@ public class MyService extends Service {
 
      void sendData(String userid, String appid,  String start, String end,String last, long total, int launch) {
 
-         String url = "http://utelem.jaradshelton.com/post_android.php";
+         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
          final String requestBody = "UserID=" + userid+ "&AppID=" + appid +
                  "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total
          + "&Launch=" + launch;
