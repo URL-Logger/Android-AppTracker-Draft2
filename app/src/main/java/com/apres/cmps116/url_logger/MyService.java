@@ -127,6 +127,8 @@ public class MyService extends Service {
                                 e.printStackTrace();
                             }
                             results.add(item);
+                           /* saveResults(results);
+                            break;*/
                         }
                         saveResults(results); //buffer results
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
@@ -179,6 +181,8 @@ public class MyService extends Service {
 
         Gson gson = new Gson();
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
+       // editor = sharedPreferences.edit();
+
 
         String jsonfile = sharedPreferences.getString("AppsUsageItem", "");
         List<AppsUsageItem> results = gson.fromJson(jsonfile, new TypeToken<List<AppsUsageItem>>(){}.getType());
@@ -203,9 +207,11 @@ public class MyService extends Service {
             int count = item.mLaunchCount;
             sendData(userid,appid, start, end,last, total, count); //send data to database
         }
+        editor.clear();
+        editor.commit();
 
     }
-
+    
      void sendData(String userid, String appid,  String start, String end,String last, long total, int launch) {
 
          String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";

@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/bereket/Documents/CMPS117/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="76768c3d4a1c43d5a913d02d889961e898d5d8a6">
-        <dex dex="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d63691ec3adb8a4e511a25c3e1ccc55fc65bd551/classes.dex" />
+        sha1="00cffd6f32fdbbc3146c224156a7126ae0daffed">
+        <dex dex="/Users/bereket/Documents/CMPS117/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_9e694544a8ccacd58c19425b09beb82adcabd317/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/bereket/Documents/CMPS117/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_30632734091743852e0ad40dfa1944826f1af8dd/classes.dex" />
+        <dex dex="/Users/bereket/Documents/CMPS117/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_09c47f801be626f74977cc9bf1bb240cffbfee73/classes.dex" />
     </item>
 
 </items>
