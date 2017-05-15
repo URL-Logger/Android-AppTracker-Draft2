@@ -84,12 +84,17 @@ public class MyService extends Service {
         Log.d("OnCreate", "After Notification");
     }
 
+
+
     void CollectData(){
 
         tickCount=0;
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
+                        long startTime = 1483228800;
+                        long endTime = Calendar.getInstance().getTimeInMillis();
+                        if (endTime==startTime+31536000) {startTime = endTime;}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
                         int count=0;
                         List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
@@ -97,7 +102,7 @@ public class MyService extends Service {
                         for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
                             AppsUsageItem item = new AppsUsageItem();
                             item.pkgName = usage.getPackageName();
-                            item.firsttime = usage.getFirstTimeStamp();
+                            item.firsttime = startTime;
                             item.lastime = usage.getLastTimeUsed();
                             item.currenttime = System.currentTimeMillis();
 
@@ -190,8 +195,8 @@ public class MyService extends Service {
             AppsUsageItem item = new AppsUsageItem();
             String userid = LoginActivity.userid;
             item.appName = results.get(i).pkgName;
-            item.firsttime = results.get(i).firsttime;
-            item.lastime = results.get(i).lastime;
+            item.firsttime = 1483228800;     //results.get(i).firsttime;
+            item.lastime = Calendar.getInstance().getTimeInMillis();;
             item.lastStartup = results.get(i).lastStartup;
             item.fgTime = results.get(i).fgTime;
             item.mLaunchCount = results.get(i).mLaunchCount;
