@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/cedriclinares/.android/build-cache/e105c779f7acceec2b0ef73367ec55cdcc094731/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/pre-dexed/debug/classes_eb1cbe2c2b8f0d38623fff8303ce4c7fd5a95618.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/cedriclinares/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="42a25dc3219429f0e5d060061f71acb49bf010a0">
+        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/pre-dexed/debug/hamcrest-core-1.3_3b7ca3f5171b1dd330316f45ebf2c1d8ea06d6a0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/cedriclinares/Documents/adt-bundle-mac-x86_64-20140702/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_8cad4dde5526e641e6f42fe3fcc3a5e27c4317b8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/cedriclinares/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2973d150c0dc1fefe998f834810d68f278ea58ec">
+        <dex dex="/Users/cedriclinares/AndroidStudioProjects/Android_URL_logger/app/build/intermediates/pre-dexed/debug/junit-4.12_60adee342b5accc602f05b02ce6b3b61876f024c.jar" />
+    </item>
+
+</items>

@@ -132,11 +132,11 @@ public class MyService extends Service {
                                 e.printStackTrace();
                             }
 
-                            String pName = item.pkgName;
-                            if (pName.equals("com.apres.cmps116.url_logger")) {
+                        //    String pName = item.pkgName;
+                       //     if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
                                 saveResults(results);
-                            }
+                         //   }
                             //break;
                         }
 
@@ -183,6 +183,7 @@ public class MyService extends Service {
         editor = sharedPreferences.edit();
         editor.putString("AppsUsageItem", String.valueOf(json));
         editor.commit();
+        int a = 0;
     }
 
     void getResults() { //Get results back
