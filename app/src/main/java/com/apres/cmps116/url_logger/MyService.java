@@ -131,18 +131,16 @@ public class MyService extends Service {
                             } catch (PackageManager.NameNotFoundException e) {
                                 e.printStackTrace();
                             }
-<<<<<<< HEAD
 
+                            String pName = item.pkgName;
+                            if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
-
-=======
-                            results.add(item);
-                           /* saveResults(results);
-                            break;*/
->>>>>>> e8dee9b3d333325814b37d4f911a6f4da9362264
+                                saveResults(results);
+                            }
+                            //break;
                         }
 
-                        saveResults(results); //buffer results
+                        //saveResults(results); //buffer results
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
                         Log.d("Count",""+count);
@@ -204,7 +202,7 @@ public class MyService extends Service {
             String userid = LoginActivity.userid;
             item.appName = results.get(i).pkgName;
             item.firsttime = 1483228800;     //results.get(i).firsttime;
-            item.lastime = Calendar.getInstance().getTimeInMillis();;
+            item.lastime = results.get(i).lastime;
             item.lastStartup = results.get(i).lastStartup;
             item.fgTime = results.get(i).fgTime;
             item.mLaunchCount = results.get(i).mLaunchCount;
