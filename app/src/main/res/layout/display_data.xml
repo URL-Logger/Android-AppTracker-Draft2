@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                  android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-                  android:paddingRight="@dimen/activity_horizontal_margin"
-                  android:paddingTop="@dimen/activity_vertical_margin"
-                  android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".displaydata"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".displaydata"
     android:background="@drawable/gradient_color"
     android:orientation="vertical">
 
@@ -13,69 +13,70 @@
         android:id="@+id/logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_gravity="right"
         android:background="@drawable/logout_button"
         android:onClick="logoutUser"
         android:src="@drawable/logout_logo"
         android:text="@string/logout_button"
         tools:ignore="HardcodedText"
-        android:layout_marginEnd="31dp"
-        android:layout_alignBaseline="@+id/stats_btn"
-        android:layout_alignBottom="@+id/stats_btn"
-        android:layout_alignParentEnd="true" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="36dp"
+        android:layout_marginRight="50dp" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_gravity="center"
 
         android:paddingTop="5dp"
         android:src="@drawable/utelem_two"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_editor_absoluteY="34dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ToggleButton
         android:id="@+id/stats_btn"
-        android:layout_width="75dp"
+        android:layout_width="88dp"
         android:layout_height="50dp"
-        android:layout_gravity="center"
         android:background="@drawable/activity_button"
         android:textOff="On"
         android:textOn="Off"
-        android:layout_marginBottom="53dp"
-        android:layout_marginStart="34dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintRight_toLeftOf="@+id/logout_btn"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.059" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tracking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="58dp"
         android:fontFamily="monospace"
-        android:text="Data Tracking is:"
+        android:text="Data Tracking is:OFF"
         android:textSize="18sp"
-        tools:text="Data Tracking is:"
-        android:layout_marginStart="23dp"
-        android:layout_below="@+id/imageView"
-        android:layout_alignStart="@+id/stats_btn"
-        android:layout_marginTop="62dp" />
-
-    <TextView
-        android:id="@+id/tracking_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:fontFamily="monospace"
-        android:text="OFF"
-        android:textSize="18sp"
-        tools:text="OFF" />
+        app:layout_constraintLeft_toLeftOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:text="Data Tracking is:OFF"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.461" />
 
     <!-- android:layout_marginTop="150dp"-->
 
 
-     <!--<Button
+    <!--<Button
         android:id="@+id/logout_btn"
         android:layout_width="100dp"
         android:layout_height="50dp"
@@ -101,4 +102,4 @@
         android:layout_marginLeft="170dp"/>-->
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
