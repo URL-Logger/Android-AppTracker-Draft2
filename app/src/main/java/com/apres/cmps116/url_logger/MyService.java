@@ -132,8 +132,8 @@ public class MyService extends Service {
                                 e.printStackTrace();
                             }
 
-                        //    String pName = item.pkgName;
-                       //     if (pName.equals("com.apres.cmps116.url_logger")) {
+                           // String pName = item.pkgName;
+                          // if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
                                 saveResults(results);
                          //   }
@@ -183,7 +183,7 @@ public class MyService extends Service {
         editor = sharedPreferences.edit();
         editor.putString("AppsUsageItem", String.valueOf(json));
         editor.commit();
-        int a = 0;
+       // int a =0;
     }
 
     void getResults() { //Get results back
@@ -202,7 +202,7 @@ public class MyService extends Service {
             AppsUsageItem item = new AppsUsageItem();
             String userid = LoginActivity.userid;
             item.appName = results.get(i).pkgName;
-            item.firsttime = 1483228800;     //results.get(i).firsttime;
+            item.firsttime = results.get(i).firsttime;     //results.get(i).firsttime;
             item.lastime = results.get(i).lastime;
             item.lastStartup = results.get(i).lastStartup;
             item.fgTime = results.get(i).fgTime;
