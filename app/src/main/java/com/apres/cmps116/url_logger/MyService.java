@@ -192,12 +192,11 @@ public class MyService extends Service {
 
         Gson gson = new Gson();
         sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
-       // editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();
 
-
-        String jsonfile = sharedPreferences.getString("AppsUsageItem", "");
-        List<AppsUsageItem> results = gson.fromJson(jsonfile, new TypeToken<List<AppsUsageItem>>(){}.getType());
-
+        //String jsonfile = sharedPreferences.getString("AppsUsageItem", "");
+        List<AppsUsageItem> results = gson.fromJson(sharedPreferences.getString("AppsUsageItem", ""), new TypeToken<List<AppsUsageItem>>(){}.getType());
+        int a =0;
         for (int i =0; i<results.size(); i++) {
             AppsUsageItem item = new AppsUsageItem();
             String userid = LoginActivity.userid;
@@ -216,7 +215,7 @@ public class MyService extends Service {
             Log.d("test", last);
             long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
             int count = item.mLaunchCount;
-                sendData(userid, appid, start, end, last, total, count); //send data to database
+            sendData(userid, appid, start, end, last, total, count); //send data to database
         }
         editor.clear();
         editor.commit();
