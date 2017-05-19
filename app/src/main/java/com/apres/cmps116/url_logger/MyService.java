@@ -87,8 +87,7 @@ public class MyService extends Service {
 
 
     void CollectData(){
-
-        tickCount=0;
+        
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
@@ -132,11 +131,11 @@ public class MyService extends Service {
                                 e.printStackTrace();
                             }
 
-                           // String pName = item.pkgName;
-                          // if (pName.equals("com.apres.cmps116.url_logger")) {
+                            String pName = item.pkgName;
+                          if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
                                 saveResults(results);
-                         //   }
+                            }
                             //break;
                         }
 
