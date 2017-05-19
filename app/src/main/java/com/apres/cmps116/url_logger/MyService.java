@@ -87,11 +87,12 @@ public class MyService extends Service {
 
 
     void CollectData(){
-
+            final Calendar cal = Calendar.getInstance();
+            cal.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
-                        long startTime = 1483228800;
+                        long startTime = cal.getTimeInMillis();
                         long endTime = Calendar.getInstance().getTimeInMillis();
                         if (endTime==startTime+31536000) {startTime = endTime;}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
@@ -131,11 +132,11 @@ public class MyService extends Service {
                                 e.printStackTrace();
                             }
 
-                       //     String pName = item.pkgName;
-                       //   if (pName.equals("com.apres.cmps116.url_logger")) {
+                            String pName = item.pkgName;
+                          if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
                                 saveResults(results);
-                         //   }
+                            }
                             //break;
                         }
 
