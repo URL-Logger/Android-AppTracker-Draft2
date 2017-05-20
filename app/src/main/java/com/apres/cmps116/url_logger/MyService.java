@@ -132,11 +132,10 @@ public class MyService extends Service {
                             } catch (PackageManager.NameNotFoundException e) {
                                 e.printStackTrace();
                             }
-
-                //            String pName = item.pkgName;
-                   //       if (pName.equals("com.apres.cmps116.url_logger")) {
+                            String pName = item.pkgName;
+                          if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
-                     //       }
+                          }
                         }
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
@@ -145,7 +144,7 @@ public class MyService extends Service {
                         tickCount++;
                         if (tickCount == 4){
                             tickCount=0;
-                            getResults(results);
+                            sendData(results);
                         }
                     }
             }, 0, 5000 );//put here time 5000 milliseconds=5 second*/
@@ -171,9 +170,10 @@ public class MyService extends Service {
         Log.d("alaram test", "");
     }
 
-    void getResults(final List<AppsUsageItem> results) { //Get results back
+    String concatData(final List<AppsUsageItem> results){
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String dataString = "DEBUG";
 
         for (int i =0; i<results.size(); i++) {
             String userid = LoginActivity.userid;
@@ -185,23 +185,20 @@ public class MyService extends Service {
             Log.d("end", end);
             long total = TimeUnit.MILLISECONDS.toSeconds(results.get(i).fgTime);
             int count = results.get(i).mLaunchCount;
-            sendData(userid, appid, start, end, last, total, count); //send data to database
+            dataString = dataString + "&UserID[]=" + userid + "&AppID[]=" + appid +
+                    "&StartTime[]=" + start + "&EndTime[]=" + end + "&LastTime[]=" +
+                    last + "&TotalTime[]=" + total + "&Launch[]=" + count;
+
         }
         results.clear();
+        return dataString;
 
     }
 
-  //  String concatData(){
-
-   // }
-
-     void sendData(String userid, String appid,  String start, String end,String last, long total, int launch) {
+     void sendData(final List<AppsUsageItem> results) {
 
          String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
-         final String requestBody = "UserID[]=" + userid+ "&AppID[]=" + appid +
-                 "&StartTime[]=" + start + "&EndTime[]=" + end + "&LastTime[]=" +
-                 last + "&TotalTime[]=" + total + "&[]Launch=" + launch;
-
+         final String requestBody = concatData(results);
 
          MySingleton volley = MySingleton.getInstance(getApplicationContext());
          mRequestQueue = volley.getRequestQueue();
