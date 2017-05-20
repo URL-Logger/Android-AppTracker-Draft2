@@ -132,17 +132,17 @@ public class MyService extends Service {
                             } catch (PackageManager.NameNotFoundException e) {
                                 e.printStackTrace();
                             }
-                            String pName = item.pkgName;
-                          if (pName.equals("com.apres.cmps116.url_logger")) {
+                       //     String pName = item.pkgName;
+                       //   if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
-                          }
+                        //  }
                         }
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
                         Log.d("Count",""+count);
                         Log.d("test", "" + results);
                         tickCount++;
-                        if (tickCount == 4){
+                        if (tickCount == 1){ //need to send when results.size = 120?
                             tickCount=0;
                             sendData(results);
                         }
