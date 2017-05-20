@@ -93,7 +93,7 @@ public class MyService extends Service {
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
-                        long startTime = cal.getTimeInMillis();
+                        long startTime = cal.getTimeInMillis(); //Fix start time to take in current year
                         long endTime = Calendar.getInstance().getTimeInMillis();
                         if (endTime==startTime+31536000) {startTime = endTime;}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
