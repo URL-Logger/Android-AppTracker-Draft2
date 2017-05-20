@@ -89,6 +89,7 @@ public class MyService extends Service {
     void CollectData(){
             final Calendar cal = Calendar.getInstance();
             cal.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
+            final List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
@@ -97,7 +98,7 @@ public class MyService extends Service {
                         if (endTime==startTime+31536000) {startTime = endTime;}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
                         int count=0;
-                        List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
+
                         PackageManager pm = getPackageManager();
                         for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
                             AppsUsageItem item = new AppsUsageItem();
@@ -132,15 +133,11 @@ public class MyService extends Service {
                                 e.printStackTrace();
                             }
 
-                            String pName = item.pkgName;
-                          if (pName.equals("com.apres.cmps116.url_logger")) {
+                //            String pName = item.pkgName;
+                   //       if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
-                                saveResults(results);
-                            }
-                            //break;
+                     //       }
                         }
-
-                        //saveResults(results); //buffer results
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
                         Log.d("Count",""+count);
@@ -148,7 +145,7 @@ public class MyService extends Service {
                         tickCount++;
                         if (tickCount == 4){
                             tickCount=0;
-                            getResults();
+                            getResults(results);
                         }
                     }
             }, 0, 5000 );//put here time 5000 milliseconds=5 second*/
@@ -174,60 +171,36 @@ public class MyService extends Service {
         Log.d("alaram test", "");
     }
 
-    void saveResults(List results) { //buffer app results
-
-        sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = gson.toJson(results);
-        Log.d("Json test", json);
-        editor = sharedPreferences.edit();
-        editor.putString("AppsUsageItem", String.valueOf(json));
-        editor.commit();
-       // int a =0;
-    }
-
-    void getResults() { //Get results back
+    void getResults(final List<AppsUsageItem> results) { //Get results back
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-        Gson gson = new Gson();
-        sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
-        //String jsonfile = sharedPreferences.getString("AppsUsageItem", "");
-        List<AppsUsageItem> results = gson.fromJson(sharedPreferences.getString("AppsUsageItem", ""), new TypeToken<List<AppsUsageItem>>(){}.getType());
-        int a =0;
         for (int i =0; i<results.size(); i++) {
-            AppsUsageItem item = new AppsUsageItem();
             String userid = LoginActivity.userid;
-            item.appName = results.get(i).pkgName;
-            item.firsttime = results.get(i).firsttime;     //results.get(i).firsttime;
-            item.lastime = results.get(i).lastime;
-            item.lastStartup = results.get(i).lastStartup;
-            item.fgTime = results.get(i).fgTime;
-            item.mLaunchCount = results.get(i).mLaunchCount;
-            String appid = item.appName;
-            //String start = dateFormat.format(item.firsttime);
-            String start =simpleDateFormat.format(item.firsttime);
+            String appid = results.get(i).pkgName;
+            String start =simpleDateFormat.format(results.get(i).firsttime);
             Log.d("test", start);
-            String end = simpleDateFormat.format(item.lastStartup);
-            String last = simpleDateFormat.format(item.lastime);
-            Log.d("test", last);
-            long total = TimeUnit.MILLISECONDS.toSeconds(item.fgTime);
-            int count = item.mLaunchCount;
+            String end = simpleDateFormat.format(results.get(i).lastStartup);
+            String last = simpleDateFormat.format(results.get(i).lastime);
+            Log.d("end", end);
+            long total = TimeUnit.MILLISECONDS.toSeconds(results.get(i).fgTime);
+            int count = results.get(i).mLaunchCount;
             sendData(userid, appid, start, end, last, total, count); //send data to database
         }
-        editor.clear();
-        editor.commit();
+        results.clear();
 
     }
-    
+
+  //  String concatData(){
+
+   // }
+
      void sendData(String userid, String appid,  String start, String end,String last, long total, int launch) {
 
          String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
-         final String requestBody = "UserID=" + userid+ "&AppID=" + appid +
-                 "&StartTime=" + start + "&EndTime=" + end + "&LastTime=" + last + "&TotalTime=" + total
-         + "&Launch=" + launch;
+         final String requestBody = "UserID[]=" + userid+ "&AppID[]=" + appid +
+                 "&StartTime[]=" + start + "&EndTime[]=" + end + "&LastTime[]=" +
+                 last + "&TotalTime[]=" + total + "&[]Launch=" + launch;
 
 
          MySingleton volley = MySingleton.getInstance(getApplicationContext());
