@@ -27,14 +27,15 @@ class UStats {
         UsageStatsManager usm = getUsageStatsManager((Context) context);
         Calendar calendar = Calendar.getInstance();
 
+        long endTime = calendar.getTimeInMillis();
 
         Calendar cal = Calendar.getInstance();
-        cal.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
+        cal.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
          //January 1st 2017
 
 
         long startTime = cal.getTimeInMillis();;
-        long endTime = calendar.getTimeInMillis();
+
       //  if (endTime==startTime+31536000) {startTime = endTime;}
       //  Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
        // Log.d(TAG, "Range end:" + dateFormat.format(endTime));

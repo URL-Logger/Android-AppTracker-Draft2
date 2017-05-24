@@ -88,14 +88,13 @@ public class MyService extends Service {
 
     void CollectData(){
             final Calendar cal = Calendar.getInstance();
-            cal.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
+            cal.set(cal.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
             final List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
                         long startTime = cal.getTimeInMillis(); //Fix start time to take in current year
-                        long endTime = Calendar.getInstance().getTimeInMillis();
-                        if (endTime==startTime+31536000) {startTime = endTime;}
+                       // long endTime = Calendar.getInstance().getTimeInMillis();
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
                         int count=0;
 
@@ -134,18 +133,18 @@ public class MyService extends Service {
                             }
                        //     String pName = item.pkgName;
                        //   if (pName.equals("com.apres.cmps116.url_logger")) {
+                            if (results.size() == 120){
+                                sendData(results);
+                            }
+                            if (item.mLaunchCount != 0) {
                                 results.add(item);
-                        //  }
+                            }
                         }
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
 
                         Log.d("Count",""+count);
                         Log.d("test", "" + results);
-                        tickCount++;
-                        if (tickCount == 1){ //need to send when results.size = 120?
-                            tickCount=0;
-                            sendData(results);
-                        }
+
                     }
             }, 0, 5000 );//put here time 5000 milliseconds=5 second*/
 
