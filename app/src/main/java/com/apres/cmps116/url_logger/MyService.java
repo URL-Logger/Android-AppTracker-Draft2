@@ -89,10 +89,13 @@ public class MyService extends Service {
     void initializeStats(Map<String, UsageStats> usageStats , Compare[] statArray){
         int i =0;
         for (UsageStats usage : usageStats.values()) {
-
+            statArray[i] = new Compare();
             statArray[i].appName = usage.getPackageName();
             statArray[i].last = usage.getLastTimeUsed();
-            statArray[i].open = false;
+           // if (usage.getPackageName().equals("com.apres.cmps116.url_logger"))
+            //   {statArray[i].open = true;}
+            //else
+            {statArray[i].open = false;}
             statArray[i].openTime = 0;
             statArray[i].closeTime = 0;
             i++;
@@ -100,11 +103,27 @@ public class MyService extends Service {
     }
 
     void analyzeData(Map<String, UsageStats> usageStats , Compare[] statArray){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
         for (UsageStats usage : usageStats.values()) {
+            Field mLaunchCount = null;
+            try {
+                mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
+
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            int launchCount = 0;
+            try {
+                launchCount = (Integer)mLaunchCount.get(usage);
+
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
             for(int i =0; i < usageStats.size()-1;i++){
-                if(usage.getPackageName() == statArray[i].appName){
-                    if (usage.getLastTimeUsed() != statArray[i].last){//If lastTimeUsed is different
+                if(statArray[i].appName.equals(usage.getPackageName())){//(statArray[i].appName)){
+                    if (usage.getLastTimeUsed() != statArray[i].last){ //If lastTimeUsed is different
                         if(!statArray[i].open){
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = true;
@@ -114,7 +133,8 @@ public class MyService extends Service {
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = false;
                             statArray[i].closeTime = usage.getLastTimeUsed();
-                            sendData2(statArray[i].openTime, statArray[i].closeTime, statArray[i].openTime - statArray[i].closeTime);
+                            sendData2(statArray[i].appName, simpleDateFormat.format(statArray[i].openTime), simpleDateFormat.format(statArray[i].closeTime),
+                                    statArray[i].closeTime - statArray[i].openTime, launchCount);
                         }
                     }
 
@@ -123,66 +143,16 @@ public class MyService extends Service {
         }
     }
 
-    void CollectData(){
+    void CollectData(final Compare[] Stats){
             final Calendar cal = Calendar.getInstance();
             cal.set(cal.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
-            final List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
-            Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
-            final Compare[] Stats = new Compare[usageStatsList.size()];
-            initializeStats(usageStatsList, Stats);
+          //  final List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
+
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
-                        long startTime = cal.getTimeInMillis(); //Fix start time to take in current year
-                        Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
-                        int count=0;
-
+                        Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
                         analyzeData(usageStatsList, Stats);
-
-
-                     /*   for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
-                            AppsUsageItem item = new AppsUsageItem();
-                            item.pkgName = usage.getPackageName();
-                            item.firsttime = startTime;
-                            item.lastime = usage.getLastTimeUsed();
-                            item.currenttime = System.currentTimeMillis();
-
-                            Field mLaunchCount = null;
-                            try {
-                                mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
-
-                            } catch (NoSuchFieldException e) {
-                                e.printStackTrace();
-                            }
-                            int launchCount = 0;
-                            try {
-                                launchCount = (Integer)mLaunchCount.get(usage);
-
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-
-                            item.mLaunchCount = launchCount;
-                            item.lastStartup = System.currentTimeMillis();
-                            item.fgTime = usage.getTotalTimeInForeground();
-                            item.appName = item.pkgName;
-
-                       //     String pName = item.pkgName;
-                       //   if (pName.equals("com.apres.cmps116.url_logger")) {
-                            if (results.size() == 20){
-                                sendData(results);
-                            }
-                            //if (item.mLaunchCount != 0) {
-                            String pName = item.pkgName;
-                            if (pName.equals("com.apres.cmps116.url_logger")) {
-                                results.add(item);
-                            }
-                        }
-                        Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
-                        count++;
-                        Log.d("Count",""+count);
-                        Log.d("test", "" + results);*/
-
                     }
             }, 0, 1000 );//put here time 5000 milliseconds=5 second*/
 
@@ -195,7 +165,10 @@ public class MyService extends Service {
      Log.d("Start Command", "Inside");
 
         showNotification();
-        CollectData();
+        Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
+        final Compare[] Stats = new Compare[usageStatsList.size()];
+        initializeStats(usageStatsList, Stats);
+        CollectData(Stats);
 
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
         Log.d("On alarm", "test two");
@@ -227,14 +200,16 @@ public class MyService extends Service {
                     last + "&TotalTime[]=" + total + "&Launch[]=" + count;
 
         }
-        results.clear();
+       // results.clear();
         return dataString;
 
     }
 
-    void sendData2(long open, long close, long diff){
+    void sendData2(String appid,String open, String close, long diff, int launch){
+        String userid = LoginActivity.userid;
         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php?temp";
-        final String requestBody = "&open[]=" + open + "&close[]" + close + "&diff[]" + diff;
+        final String requestBody = "&UserID[]=" + userid + "&AppID[]=" + appid +"&StartTime[]=" + open + "&EndTime[]" + close + "&LastTime[]=" +
+                0 + "&TotalTime[]=" + diff + "&Launch[]=" + launch;
 
         MySingleton volley = MySingleton.getInstance(getApplicationContext());
         mRequestQueue = volley.getRequestQueue();
@@ -280,7 +255,7 @@ public class MyService extends Service {
 
     }
 
-     void sendData(final List<AppsUsageItem> results) {
+   /*  void sendData(final List<AppsUsageItem> results) {
 
          String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
          final String requestBody = concatData(results);
@@ -328,7 +303,7 @@ public class MyService extends Service {
          mRequestQueue.add(stringRequest);//add request to queue
      }
 
-
+*/
 
     @Override
     public void onDestroy() { //Destroys background function

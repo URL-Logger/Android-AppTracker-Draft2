@@ -5,9 +5,9 @@ package com.apres.cmps116.url_logger;
  */
 
 public class Compare {
-    String appName;
-    long last; //(Lasttime, open, openTime, closeTime)
-    boolean open;
-    long openTime;
-    long closeTime;
+    String appName = "";
+    long last = 0;
+    boolean open = false;
+    long openTime = 0;
+    long closeTime = 0;
 }
