@@ -16,16 +16,12 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map;
-import java.util.ArrayList;
-import android.content.pm.PackageManager;
 import java.lang.reflect.Field;
-import android.content.SharedPreferences;
 import com.android.volley.RequestQueue;
 
 import com.android.volley.AuthFailureError;
@@ -123,7 +119,7 @@ public class MyService extends Service {
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = false;
                             statArray[i].closeTime = usage.getLastTimeUsed();
-                            sendData2(statArray[i].appName, simpleDateFormat.format(statArray[i].openTime), simpleDateFormat.format(statArray[i].closeTime),
+                            sendData(statArray[i].appName, simpleDateFormat.format(statArray[i].openTime), simpleDateFormat.format(statArray[i].closeTime),
                                     statArray[i].closeTime - statArray[i].openTime, launchCount);
                         }
                     }
@@ -170,32 +166,7 @@ public class MyService extends Service {
         Log.d("alaram test", "");
     }
 
-    String concatData(final List<AppsUsageItem> results){
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String dataString = "DEBUG";
-
-        for (int i =0; i<results.size(); i++) {
-            String userid = LoginActivity.userid;
-            String appid = results.get(i).pkgName;
-            String start =simpleDateFormat.format(results.get(i).firsttime);
-            Log.d("test", start);
-            String end = simpleDateFormat.format(results.get(i).lastStartup);
-            String last = simpleDateFormat.format(results.get(i).lastime);
-            Log.d("end", end);
-            long total = TimeUnit.MILLISECONDS.toSeconds(results.get(i).fgTime);
-            int count = results.get(i).mLaunchCount;
-            dataString = dataString + "&UserID[]=" + userid + "&AppID[]=" + appid +
-                    "&StartTime[]=" + start + "&EndTime[]=" + end + "&LastTime[]=" +
-                    last + "&TotalTime[]=" + total + "&Launch[]=" + count;
-
-        }
-       // results.clear();
-        return dataString;
-
-    }
-
-    void sendData2(String appid,String open, String close, long diff, int launch){
+    void sendData(String appid,String open, String close, long diff, int launch){
         String userid = LoginActivity.userid;
         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php?temp";
         final String requestBody = "&UserID[]=" + userid + "&AppID[]=" + appid +"&StartTime[]=" + open + "&EndTime[]=" + close + "&LastTime[]=" +
