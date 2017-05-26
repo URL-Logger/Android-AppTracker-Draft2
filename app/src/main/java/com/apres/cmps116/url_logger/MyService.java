@@ -17,7 +17,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map;
@@ -100,11 +102,17 @@ public class MyService extends Service {
 
                         PackageManager pm = getPackageManager();
                         for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
-                            AppsUsageItem item = new AppsUsageItem();
+                            AppsUsageItem item = new AppsUsageItem(getApplicationContext());
                             item.pkgName = usage.getPackageName();
                             item.firsttime = startTime;
                             item.lastime = usage.getLastTimeUsed();
                             item.currenttime = System.currentTimeMillis();
+
+                            /*long time = usage.getLastTimeUsed();
+                            SimpleDateFormat sdf = new SimpleDateFormat();
+                            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            String currentTime = sdf.format(new Date(time));*/
+                            //Log.d("testing date", sdf.format(new Date(time)));
 
                             Field mLaunchCount = null;
                             try {
@@ -131,6 +139,42 @@ public class MyService extends Service {
                             } catch (PackageManager.NameNotFoundException e) {
                                 e.printStackTrace();
                             }
+
+                            //SET UP FOR APP TIMESTAMPS
+                            if(item.appDataExists(item.appName)){
+                                if(usage.getLastTimeUsed() > item.getStartTime()){
+                                    long appEndTime = item.getStartTime() + (usage.getTotalTimeInForeground() - item.getForeground());
+                                    long appTotalTime = usage.getTotalTimeInForeground() - item.getForeground();
+                                    item.setEndTime(appEndTime);
+                                    item.setTotalTime(appTotalTime);
+                                    item.setForeground(usage.getTotalTimeInForeground());
+                                    //TEST
+                                    if(item.appName.equals("URL-logger")){
+                                        SimpleDateFormat sdf = new SimpleDateFormat();
+                                        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                        String start = sdf.format(new Date(item.getStartTime()));
+                                        String end = sdf.format(new Date(appEndTime));
+                                        appTotalTime /= 1000;
+                                        appTotalTime /= 60;
+                                        String total = Long.toString(appTotalTime);
+                                        Log.i("start", start);
+                                        Log.i("end", end);
+                                        Log.i("total", total);
+                                    }
+                                    item.setLastTimeUsed(usage.getLastTimeUsed());
+                                    item.setStartTime(usage.getLastTimeUsed());
+                                }
+                            }else {
+                                item.createAppData(item.appName);
+                                item.setLastTimeUsed(usage.getLastTimeUsed());
+                                item.setStartTime(usage.getLastTimeUsed());
+                                item.setForeground(usage.getTotalTimeInForeground());
+                                item.setAppName(item.appName);
+                                item.setTotalTime(0);
+                                item.setEndTime(0);
+                            }
+
+
                        //     String pName = item.pkgName;
                        //   if (pName.equals("com.apres.cmps116.url_logger")) {
                             if (results.size() == 120){

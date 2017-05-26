@@ -45,6 +45,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
          */
         loginSettings = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         editor = loginSettings.edit();
+
         if(loginSettings.getBoolean(IS_LOGIN, false)){
             Intent intent = new Intent(LoginActivity.this, displaydata.class);
             startActivity(intent);
