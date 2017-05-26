@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import android.content.pm.PackageManager;
 import java.lang.reflect.Field;
-import java.util.Collections;
 import android.content.SharedPreferences;
 import com.android.volley.RequestQueue;
 
@@ -40,24 +39,17 @@ import com.android.volley.toolbox.StringRequest;
 
 import java.io.UnsupportedEncodingException;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MyService extends Service {
 
-
     private NotificationManager mNM;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     private RequestQueue mRequestQueue;
     // Unique Identification Number for the Notification.
     // We use it on Notification start, and to cancel it.
     private int NOTIFICATION = R.string.local_service_started;
     Timer timer = new Timer();
-    int tickCount;
-
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -72,8 +64,6 @@ public class MyService extends Service {
 
     @Override
     public void onCreate() {
-
-
         if (UStats.getUsageStatsList(this).isEmpty()){ //Check if permissions are granted
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intent);
@@ -124,7 +114,7 @@ public class MyService extends Service {
             for(int i =0; i < usageStats.size()-1;i++){
                 if(statArray[i].appName.equals(usage.getPackageName())){//(statArray[i].appName)){
                     if (usage.getLastTimeUsed() != statArray[i].last){ //If lastTimeUsed is different
-                        if(!statArray[i].open){
+                        if(!statArray[i].open){  //If app is already opened
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = true;
                             statArray[i].openTime = usage.getLastTimeUsed();
@@ -208,7 +198,7 @@ public class MyService extends Service {
     void sendData2(String appid,String open, String close, long diff, int launch){
         String userid = LoginActivity.userid;
         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php?temp";
-        final String requestBody = "&UserID[]=" + userid + "&AppID[]=" + appid +"&StartTime[]=" + open + "&EndTime[]" + close + "&LastTime[]=" +
+        final String requestBody = "&UserID[]=" + userid + "&AppID[]=" + appid +"&StartTime[]=" + open + "&EndTime[]=" + close + "&LastTime[]=" +
                 0 + "&TotalTime[]=" + diff + "&Launch[]=" + launch;
 
         MySingleton volley = MySingleton.getInstance(getApplicationContext());
@@ -254,56 +244,6 @@ public class MyService extends Service {
         mRequestQueue.add(stringRequest);//add request to queue
 
     }
-
-   /*  void sendData(final List<AppsUsageItem> results) {
-
-         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php";
-         final String requestBody = concatData(results);
-
-         MySingleton volley = MySingleton.getInstance(getApplicationContext());
-         mRequestQueue = volley.getRequestQueue();
-            // Request a string response from the provided URL.
-         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-             @Override
-             public void onResponse(String response) {
-                 Log.i("VOLLEY", response);
-
-             }
-         }, new Response.ErrorListener() {
-             @Override
-             public void onErrorResponse(VolleyError error) {
-                 Log.e("VOLLEY", error.toString());
-             }
-         }) {
-             @Override
-             public String getBodyContentType() {
-                 return "application/x-www-form-urlencoded; charset=utf-8";
-             }
-
-             @Override
-             public byte[] getBody() throws AuthFailureError {
-                 try {
-                     return requestBody == null ? null : requestBody.getBytes("utf-8");
-                 } catch (UnsupportedEncodingException uee) {
-                     VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                     return null;
-                 }
-             }
-
-             @Override
-             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                 String responseString = "";
-                 if (response != null) {
-                     responseString = String.valueOf(response.statusCode);
-                     // can get more details such as response.headers
-                 }
-                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-             }
-         };
-         mRequestQueue.add(stringRequest);//add request to queue
-     }
-
-*/
 
     @Override
     public void onDestroy() { //Destroys background function
