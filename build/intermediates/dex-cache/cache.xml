@@ -2,6 +2,15 @@
 <items version="2" >
 
     <item
+        is-multidex="true"
+        jar="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="01668b19c62257ba407ea495d6c391263022f198">
+        <dex dex="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d63691ec3adb8a4e511a25c3e1ccc55fc65bd551/classes.dex" />
+    </item>
+    <item
         is-multidex="false"
         jar="/home/bicboi/Android/Sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
         jumboMode="false"
@@ -27,6 +36,15 @@
         revision="25.0.2"
         sha1="42a25dc3219429f0e5d060061f71acb49bf010a0">
         <dex dex="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/pre-dexed/debug/hamcrest-core-1.3_da697abcddf8d572e6efed12904c8ad60361dac4.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="/home/bicboi/UCSC_Courses/CMPS117/android_app/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_30632734091743852e0ad40dfa1944826f1af8dd/classes.dex" />
     </item>
     <item
         is-multidex="false"

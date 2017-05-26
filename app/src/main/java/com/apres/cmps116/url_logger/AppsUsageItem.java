@@ -24,6 +24,7 @@ public class AppsUsageItem {
     public long lastime;
     public long currenttime;
     public int mLaunchCount;
+    public boolean open;
 
     //==================================================================================
     private SharedPreferences appData;      //Will contain app timestamps
@@ -35,12 +36,12 @@ public class AppsUsageItem {
     }
 
     //============= Setters ============
-    public void setForeground(long foreground){
-        editor.putLong("FOREGROUND_TIME", foreground);
+    public void setStatus(boolean status){
+        editor.putBoolean("STATUS", status);
         editor.commit();
     }
-    public void setLastTimeUsed(long lastTimeUsed){
-        editor.putLong("LAST_TIME", lastTimeUsed);
+    public void setLaunchCount(int launchCount){
+        editor.putInt("LAUNCH_COUNT", launchCount);
         editor.commit();
     }
 
@@ -64,12 +65,8 @@ public class AppsUsageItem {
         editor.commit();
     }
     //============= Getters ============
-    public long getForeground(){
-        return appData.getLong("FOREGROUND_TIME", 0);
-    }
-    public long getLastTimeUsed(){
-        return appData.getLong("LAST_TIME", 0);
-    }
+    public boolean getStatus() { return appData.getBoolean("STATUS", false); }
+    public int getLaunchCount() { return appData.getInt("LAUNCH_COUNT", 0); }
 
     public long getStartTime(){
         return appData.getLong("START_TIME", 0);
@@ -86,6 +83,7 @@ public class AppsUsageItem {
     public String getAppName(){
         return appData.getString("APP_NAME", "");
     }
+
     public void createAppData(String apName){
         appData = context.getSharedPreferences(apName, MODE_PRIVATE);
         editor = appData.edit();

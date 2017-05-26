@@ -142,34 +142,42 @@ public class MyService extends Service {
 
                             //SET UP FOR APP TIMESTAMPS
                             if(item.appDataExists(item.appName)){
-                                if(usage.getLastTimeUsed() > item.getStartTime()){
-                                    long appEndTime = item.getStartTime() + (usage.getTotalTimeInForeground() - item.getForeground());
-                                    long appTotalTime = usage.getTotalTimeInForeground() - item.getForeground();
-                                    item.setEndTime(appEndTime);
-                                    item.setTotalTime(appTotalTime);
-                                    item.setForeground(usage.getTotalTimeInForeground());
-                                    //TEST
-                                    if(item.appName.equals("URL-logger")){
-                                        SimpleDateFormat sdf = new SimpleDateFormat();
-                                        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-                                        String start = sdf.format(new Date(item.getStartTime()));
-                                        String end = sdf.format(new Date(appEndTime));
-                                        appTotalTime /= 1000;
-                                        appTotalTime /= 60;
-                                        String total = Long.toString(appTotalTime);
-                                        Log.i("start", start);
-                                        Log.i("end", end);
-                                        Log.i("total", total);
+                                if(usage.getLastTimeUsed() > item.getStartTime()){      //Check to see if the app was opened or closed
+                                    if(item.mLaunchCount > item.getLaunchCount()){      //User opened the app
+                                        item.setStartTime(usage.getLastTimeUsed());     //Update start time
+                                        item.setLaunchCount(item.mLaunchCount);
+                                        item.setStatus(true);                           //App is currently opened
                                     }
-                                    item.setLastTimeUsed(usage.getLastTimeUsed());
-                                    item.setStartTime(usage.getLastTimeUsed());
+                                    else{                                                //User closed the app
+                                        long appEndTime = usage.getLastTimeUsed();      //Update end time
+                                        long appTotalTime = usage.getLastTimeUsed() - item.getStartTime();  //Find total time used
+                                        item.setEndTime(appEndTime);
+                                        item.setTotalTime(appTotalTime);
+
+                                        //TEST
+                                        if(item.getStatus()){
+                                            //TODO Buffer data inside here
+                                            if(item.appName.equals("Gmail")){
+                                                SimpleDateFormat sdf = new SimpleDateFormat();
+                                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                                String start = sdf.format(new Date(item.getStartTime()));
+                                                String end = sdf.format(new Date(appEndTime));
+                                                appTotalTime /= 1000;
+                                                appTotalTime /= 60;
+                                                String total = Long.toString(appTotalTime);
+                                                Log.i("start", start);
+                                                Log.i("end", end);
+                                                Log.i("total", total);
+                                            }
+                                            item.setStatus(false);              //App is closed
+                                        }
+                                    }
                                 }
                             }else {
                                 item.createAppData(item.appName);
-                                item.setLastTimeUsed(usage.getLastTimeUsed());
                                 item.setStartTime(usage.getLastTimeUsed());
-                                item.setForeground(usage.getTotalTimeInForeground());
                                 item.setAppName(item.appName);
+                                item.setLaunchCount(item.mLaunchCount);
                                 item.setTotalTime(0);
                                 item.setEndTime(0);
                             }
