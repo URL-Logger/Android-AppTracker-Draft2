@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Timer;
@@ -56,6 +57,7 @@ public class MyService extends Service {
     private int NOTIFICATION = R.string.local_service_started;
     Timer timer = new Timer();
     int tickCount;
+
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -84,22 +86,61 @@ public class MyService extends Service {
         Log.d("OnCreate", "After Notification");
     }
 
+    void initializeStats(Map<String, UsageStats> usageStats , Compare[] statArray){
+        int i =0;
+        for (UsageStats usage : usageStats.values()) {
 
+            statArray[i].appName = usage.getPackageName();
+            statArray[i].last = usage.getLastTimeUsed();
+            statArray[i].open = false;
+            statArray[i].openTime = 0;
+            statArray[i].closeTime = 0;
+            i++;
+        }
+    }
+
+    void analyzeData(Map<String, UsageStats> usageStats , Compare[] statArray){
+
+        for (UsageStats usage : usageStats.values()) {
+            for(int i =0; i < usageStats.size()-1;i++){
+                if(usage.getPackageName() == statArray[i].appName){
+                    if (usage.getLastTimeUsed() != statArray[i].last){//If lastTimeUsed is different
+                        if(!statArray[i].open){
+                            statArray[i].last = usage.getLastTimeUsed();
+                            statArray[i].open = true;
+                            statArray[i].openTime = usage.getLastTimeUsed();
+                        }
+                        else{
+                            statArray[i].last = usage.getLastTimeUsed();
+                            statArray[i].open = false;
+                            statArray[i].closeTime = usage.getLastTimeUsed();
+                            sendData2(statArray[i].openTime, statArray[i].closeTime, statArray[i].openTime - statArray[i].closeTime);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 
     void CollectData(){
             final Calendar cal = Calendar.getInstance();
             cal.set(cal.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
             final List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
+            Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
+            final Compare[] Stats = new Compare[usageStatsList.size()];
+            initializeStats(usageStatsList, Stats);
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
                         long startTime = cal.getTimeInMillis(); //Fix start time to take in current year
-                       // long endTime = Calendar.getInstance().getTimeInMillis();
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this); //get the usageStats
                         int count=0;
 
-                        PackageManager pm = getPackageManager();
-                        for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
+                        analyzeData(usageStatsList, Stats);
+
+
+                     /*   for (UsageStats usage : usageStatsList.values()) { //extract data from each app in usageStats
                             AppsUsageItem item = new AppsUsageItem();
                             item.pkgName = usage.getPackageName();
                             item.firsttime = startTime;
@@ -126,27 +167,24 @@ public class MyService extends Service {
                             item.fgTime = usage.getTotalTimeInForeground();
                             item.appName = item.pkgName;
 
-                            try {
-                                item.appName = pm.getApplicationInfo(item.pkgName, 0).loadLabel(pm).toString();
-                            } catch (PackageManager.NameNotFoundException e) {
-                                e.printStackTrace();
-                            }
                        //     String pName = item.pkgName;
                        //   if (pName.equals("com.apres.cmps116.url_logger")) {
-                            if (results.size() == 120){
+                            if (results.size() == 20){
                                 sendData(results);
                             }
-                            if (item.mLaunchCount != 0) {
+                            //if (item.mLaunchCount != 0) {
+                            String pName = item.pkgName;
+                            if (pName.equals("com.apres.cmps116.url_logger")) {
                                 results.add(item);
                             }
                         }
                         Collections.sort(results, new AppsUsageItem.AppNameComparator()); //sort buffer
-
+                        count++;
                         Log.d("Count",""+count);
-                        Log.d("test", "" + results);
+                        Log.d("test", "" + results);*/
 
                     }
-            }, 0, 5000 );//put here time 5000 milliseconds=5 second*/
+            }, 0, 1000 );//put here time 5000 milliseconds=5 second*/
 
     }
 
@@ -191,6 +229,54 @@ public class MyService extends Service {
         }
         results.clear();
         return dataString;
+
+    }
+
+    void sendData2(long open, long close, long diff){
+        String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php?temp";
+        final String requestBody = "&open[]=" + open + "&close[]" + close + "&diff[]" + diff;
+
+        MySingleton volley = MySingleton.getInstance(getApplicationContext());
+        mRequestQueue = volley.getRequestQueue();
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        mRequestQueue.add(stringRequest);//add request to queue
 
     }
 
