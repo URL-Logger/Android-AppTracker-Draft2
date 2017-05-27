@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
@@ -50,6 +51,7 @@ public class MyService extends Service {
     // We use it on Notification start, and to cancel it.
     private int NOTIFICATION = R.string.local_service_started;
     Timer timer = new Timer();
+    List<Compare> statsList = new ArrayList<Compare>();
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -96,7 +98,7 @@ public class MyService extends Service {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
         for (UsageStats usage : usageStats.values()) {
-            Field mLaunchCount = null;
+            Field mLaunchCount = null; //Getting launch count
             try {
                 mLaunchCount=UsageStats.class.getDeclaredField("mLaunchCount");
 
@@ -105,21 +107,21 @@ public class MyService extends Service {
             }
             int launchCount = 0;
             try {
-                launchCount = (Integer)mLaunchCount.get(usage);
+                launchCount = (Integer)mLaunchCount.get(usage);//Getting launch count
 
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
 
             for(int i =0; i < usageStats.size()-1;i++){
-                if(statArray[i].appName.equals(usage.getPackageName())){//(statArray[i].appName)){
+                if(statArray[i].appName.equals(usage.getPackageName()) && !usage.getPackageName().equals("com.sec.android.app.launcher")){//(statArray[i].appName)){
                     if (usage.getLastTimeUsed() != statArray[i].last){ //If lastTimeUsed is different
                         if(!statArray[i].open){  //If app is already opened
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = true;
                             statArray[i].openTime = usage.getLastTimeUsed();
                         }
-                        else{
+                        else{ //if app is closed
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = false;
                             statArray[i].closeTime = usage.getLastTimeUsed();
@@ -138,136 +140,14 @@ public class MyService extends Service {
     void CollectData(final Compare[] Stats){
             final Calendar cal = Calendar.getInstance();
             cal.set(cal.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
-          //  final List<AppsUsageItem> results = new ArrayList<AppsUsageItem>();
-            final List<Compare> statsList = new List<Compare>() {
-            @Override
-            public int size() {
-                return 0;
-            }
 
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(Object o) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator<Compare> iterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NonNull
-            @Override
-            public <T> T[] toArray(T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean add(Compare compare) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(Collection<? extends Compare> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int index, Collection<? extends Compare> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Compare get(int index) {
-                return null;
-            }
-
-            @Override
-            public Compare set(int index, Compare element) {
-                return null;
-            }
-
-            @Override
-            public void add(int index, Compare element) {
-
-            }
-
-            @Override
-            public Compare remove(int index) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(Object o) {
-                return 0;
-            }
-
-            @Override
-            public int lastIndexOf(Object o) {
-                return 0;
-            }
-
-            @Override
-            public ListIterator<Compare> listIterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<Compare> listIterator(int index) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public List<Compare> subList(int fromIndex, int toIndex) {
-                return null;
-            }
-        };
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
-
                         analyzeData(usageStatsList, Stats, statsList);
                     }
-            }, 0, 1000 );//put here time 5000 milliseconds=5 second*/
+            }, 0, 1000 );//put here time 1000 milliseconds=1 second
 
     }
 
@@ -314,7 +194,7 @@ public class MyService extends Service {
 
     }
 
-    void sendData(final List<Compare> results){
+    void sendData(List<Compare> results){
         String userid = LoginActivity.userid;
         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php?temp";
         final String requestBody = concatData(results);
