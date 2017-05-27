@@ -10,4 +10,5 @@ public class Compare {
     boolean open = false;
     long openTime = 0;
     long closeTime = 0;
+    int launch = 0;
 }
