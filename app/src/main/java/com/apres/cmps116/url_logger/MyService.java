@@ -84,10 +84,7 @@ public class MyService extends Service {
             statArray[i] = new Compare();
             statArray[i].appName = usage.getPackageName();
             statArray[i].last = usage.getLastTimeUsed();
-           // if (usage.getPackageName().equals("com.apres.cmps116.url_logger"))
-            //   {statArray[i].open = true;}
-            //else
-            {statArray[i].open = false;}
+             {statArray[i].open = false;}
             statArray[i].openTime = 0;
             statArray[i].closeTime = 0;
             i++;
@@ -113,10 +110,13 @@ public class MyService extends Service {
                 e.printStackTrace();
             }
 
-            for(int i =0; i < usageStats.size()-1;i++){
+            for(int i =0; i < usageStats.size();i++){
                 if(statArray[i].appName.equals(usage.getPackageName()) && !usage.getPackageName().equals("com.sec.android.app.launcher")){//(statArray[i].appName)){
                     if (usage.getLastTimeUsed() != statArray[i].last){ //If lastTimeUsed is different
                         if(!statArray[i].open){  //If app is already opened
+                            String temp = statArray[i].appName;
+                            statArray[i] = new Compare();
+                            statArray[i].appName = temp;
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = true;
                             statArray[i].openTime = usage.getLastTimeUsed();
@@ -127,7 +127,7 @@ public class MyService extends Service {
                             statArray[i].closeTime = usage.getLastTimeUsed();
                             statArray[i].launch = launchCount;
                             statsList.add(statArray[i]);
-                            if (statsList.size() > 120)
+                            if (statsList.size() > 2)
                                 {sendData(statsList);}
                         }
                     }
@@ -195,7 +195,6 @@ public class MyService extends Service {
     }
 
     void sendData(List<Compare> results){
-        String userid = LoginActivity.userid;
         String url = "http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_android.php?temp";
         final String requestBody = concatData(results);
 
