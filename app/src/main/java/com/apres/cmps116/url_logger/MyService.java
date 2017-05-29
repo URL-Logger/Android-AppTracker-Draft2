@@ -156,7 +156,7 @@ public class MyService extends Service {
         CollectData(Stats);
 
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
-        Log.d("On alarm", "test two");
+        //Log.d("On alarm", "test two");
 
         return START_STICKY_COMPATIBILITY; //Continues running when user leaves
     }
