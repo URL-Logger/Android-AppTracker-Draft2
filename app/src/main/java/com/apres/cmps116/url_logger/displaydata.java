@@ -72,7 +72,9 @@ public class displaydata extends AppCompatActivity {
         stopService(serviceIntent);     //Turn off data collection when we log out
 
         Intent intent = new Intent(displaydata.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
 }
