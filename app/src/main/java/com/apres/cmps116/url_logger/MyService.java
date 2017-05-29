@@ -122,7 +122,7 @@ public class MyService extends Service {
                             statArray[i].closeTime = usage.getLastTimeUsed();
                             statArray[i].launch = launchCount;
                             statsList.add(statArray[i]);
-                            if (statsList.size() == 45)
+                            if (statsList.size() == 4)
                                 {sendData(statsList);}
                         }
                     }
