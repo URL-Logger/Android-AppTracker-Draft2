@@ -4,7 +4,6 @@ package com.apres.cmps116.url_logger;
  * Created by cedriclinares on 2/18/17.
  */
 
-import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;

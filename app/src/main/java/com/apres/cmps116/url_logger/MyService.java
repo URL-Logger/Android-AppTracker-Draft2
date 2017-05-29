@@ -13,16 +13,12 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map;
@@ -41,7 +37,6 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.UnsupportedEncodingException;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MyService extends Service {
 
@@ -92,7 +87,6 @@ public class MyService extends Service {
     }
 
     void analyzeData(Map<String, UsageStats> usageStats , Compare[] statArray, List<Compare> statsList){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
         for (UsageStats usage : usageStats.values()) {
             Field mLaunchCount = null; //Getting launch count
@@ -111,27 +105,27 @@ public class MyService extends Service {
             }
 
             for(int i =0; i < usageStats.size();i++){
-                if(statArray[i].appName.equals(usage.getPackageName()) && !usage.getPackageName().equals("com.sec.android.app.launcher")){//(statArray[i].appName)){
+                if(statArray[i].appName.equals(usage.getPackageName()) &&
+                        !usage.getPackageName().equals("com.sec.android.app.launcher")){
                     if (usage.getLastTimeUsed() != statArray[i].last){ //If lastTimeUsed is different
-                        if(!statArray[i].open){  //If app is already opened
+                        if(!statArray[i].open){  //if app is closed
                             String temp = statArray[i].appName;
-                            statArray[i] = new Compare();
+                            statArray[i] = new Compare(); //Need to create new instance to fix list bug
                             statArray[i].appName = temp;
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = true;
                             statArray[i].openTime = usage.getLastTimeUsed();
                         }
-                        else{ //if app is closed
+                        else{ //If app is already opened
                             statArray[i].last = usage.getLastTimeUsed();
                             statArray[i].open = false;
                             statArray[i].closeTime = usage.getLastTimeUsed();
                             statArray[i].launch = launchCount;
                             statsList.add(statArray[i]);
-                            if (statsList.size() > 2)
+                            if (statsList.size() == 45)
                                 {sendData(statsList);}
                         }
                     }
-
                 }
             }
         }
@@ -148,9 +142,7 @@ public class MyService extends Service {
                         analyzeData(usageStatsList, Stats, statsList);
                     }
             }, 0, 1000 );//put here time 1000 milliseconds=1 second
-
     }
-
 
     @Override
     //When background service starts
@@ -181,13 +173,10 @@ public class MyService extends Service {
             Log.d("test", start);
             String end = simpleDateFormat.format(results.get(i).closeTime);
             long diff = (results.get(i).closeTime - results.get(i).openTime)/1000;
-          //  String last = simpleDateFormat.format(results.get(i).lastime);
             Log.d("end", end);
-           // long total = TimeUnit.MILLISECONDS.toSeconds(results.get(i).fgTime);
             int launch = results.get(i).launch;
             dataString = dataString + "&UserID[]=" + userid + "&AppID[]=" + appid +"&StartTime[]=" + start
-                    + "&EndTime[]=" + end + "&LastTime[]=" +
-                    0 + "&TotalTime[]=" + diff + "&Launch[]=" + launch;
+                    + "&EndTime[]=" + end + "&LastTime[]=" + 0 + "&TotalTime[]=" + diff + "&Launch[]=" + launch;
         }
         results.clear();
         return dataString;
@@ -245,6 +234,7 @@ public class MyService extends Service {
     @Override
     public void onDestroy() { //Destroys background function
         // Cancel the persistent notification.
+        sendData(statsList);
         mNM.cancel(NOTIFICATION);
         timer.cancel();
         timer.purge();

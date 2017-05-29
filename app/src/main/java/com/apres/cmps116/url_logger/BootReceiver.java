@@ -14,7 +14,9 @@ import android.widget.Toast;
 public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         Toast.makeText(context, "On Boot method", Toast.LENGTH_LONG).show();
-        Intent serviceIntent = new Intent (context, MyService.class);
-        context.startService(serviceIntent);
+        if (displaydata.statsBtn.isChecked()) {
+            Intent serviceIntent = new Intent(context, MyService.class);
+            context.startService(serviceIntent);
+        }
     }
 }

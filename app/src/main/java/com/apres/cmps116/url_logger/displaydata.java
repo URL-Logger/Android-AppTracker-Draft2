@@ -4,11 +4,9 @@ package com.apres.cmps116.url_logger;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -18,8 +16,7 @@ import android.widget.ToggleButton;
 
 public class displaydata extends AppCompatActivity {
 
-    ToggleButton statsBtn;
-    public static final String PREFRENCES_FILE_NAME = "MyAppPreferences";
+    static ToggleButton statsBtn;
     Intent serviceIntent;
     TextView tracking;
 
