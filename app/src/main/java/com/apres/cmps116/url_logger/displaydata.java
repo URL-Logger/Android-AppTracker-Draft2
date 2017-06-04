@@ -26,10 +26,10 @@ public class displaydata extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_data);
 
-        ActionBar actionBar = getSupportActionBar();
+        /*ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);*/
 
         serviceIntent = new Intent (displaydata.this, MyService.class);
         statsBtn = (ToggleButton) findViewById(R.id.stats_btn);

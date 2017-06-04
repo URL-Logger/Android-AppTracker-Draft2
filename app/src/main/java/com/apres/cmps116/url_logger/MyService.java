@@ -135,6 +135,7 @@ public class MyService extends Service {
     }
 
     void compareFunc(UsageStats usage, int i, int launchCount){
+
         if (!usage.getPackageName().equals("com.sec.android.app.launcher")) {
             if (usage.getLastTimeUsed() > statArray[i].last) { //If lastTimeUsed is different
                 if (!statArray[i].open) {  //if app is closed
@@ -189,14 +190,17 @@ public class MyService extends Service {
     }
 
     void CollectData(){
-            final Calendar cal = Calendar.getInstance();
-            cal.set(cal.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
+
             Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
             initializeStats(usageStatsList);
 
             timer.scheduleAtFixedRate(new TimerTask() { //timer to capture data every 5 seconds
                     @Override
                     public void run() {
+                        Calendar cal = Calendar.getInstance();
+                        int hour = cal.get(Calendar.HOUR_OF_DAY);
+                        if (hour == 12 && statsList.size()!=0 ) //Send data once a day
+                            {sendData(statsList);}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
                         analyzeData(usageStatsList);
                     }
@@ -291,7 +295,8 @@ public class MyService extends Service {
     @Override
     public void onDestroy() { //Destroys background function
         // Cancel the persistent notification.
-        sendData(statsList);
+        if (statsList.size() > 0)
+            {sendData(statsList);}
         mNM.cancel(NOTIFICATION);
         timer.cancel();
         timer.purge();
