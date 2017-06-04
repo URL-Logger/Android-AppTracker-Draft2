@@ -6,6 +6,7 @@ package com.apres.cmps116.url_logger;
 
 public class Compare {
     String appName = "";
+    String packageName = "";
     long last = 0;
     boolean open = false;
     long openTime = 0;
