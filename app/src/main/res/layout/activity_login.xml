@@ -32,56 +32,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="56dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:weightSum="1"
+            android:paddingTop="56dp"
             android:textSize="18dp"
-            >
+            android:weightSum="1">
 
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textSize="24dp"
+                    android:singleLine="true"
                     android:textColor="#3e3438"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="30dp"
-                    android:singleLine="true"/>
+                    android:textSize="24dp" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">>
 
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="100dp"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:layout_marginTop="100dp"
-                    android:textSize="24dp"
+                    android:singleLine="true"
                     android:textColor="@color/colorAccent"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="30dp"
-                    android:singleLine="true"/>
+                    android:textSize="24dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -90,28 +90,43 @@
                 style="?android:textAppearanceSmall"
                 android:layout_width="149dp"
                 android:layout_height="wrap_content"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:textColor="#583f3f"
                 android:layout_gravity="center"
-                android:background="@drawable/activity_button"
-                android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
-                android:layout_marginRight="130dp"
                 android:layout_marginLeft="130dp"
-                />
+                android:layout_marginRight="130dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/activity_button"
+                android:text="@string/action_sign_in"
+                android:textColor="#583f3f"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/register_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="130dp"
+                android:layout_marginRight="130dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/activity_button"
+                android:text="@string/action_sign_up"
+                android:textColor="#583f3f"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/privacypolicy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Terms of Policy"
-                android:layout_marginTop="30dp"
                 android:layout_marginBottom="24dp"
-                android:textColor="@color/colorPrivacy"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:textSize="16dip"/>
+                android:text="Terms of Policy"
+                android:textColor="@color/colorPrivacy"
+                android:textSize="16dip" />
 
         </LinearLayout>
     </ScrollView>

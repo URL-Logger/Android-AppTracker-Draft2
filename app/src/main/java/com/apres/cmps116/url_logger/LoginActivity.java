@@ -127,6 +127,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button registerButton = (Button) findViewById(R.id.register_button);
+        registerButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                //intent.addCategory(Intent.CATEGORY_APP_BROWSER);
+                intent.setData(Uri.parse("http://sample-env-1.mmp43pn7bg.us-west-1.elasticbeanstalk.com/#!/signup"));
+                startActivity(intent);
+            }
+        });
+
         final TextView privacypolicypage = (TextView) findViewById(R.id.privacypolicy);
         privacypolicypage.setOnClickListener(new OnClickListener() {
             @Override
