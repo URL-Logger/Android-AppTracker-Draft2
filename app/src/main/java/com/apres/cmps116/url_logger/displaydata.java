@@ -5,7 +5,6 @@ package com.apres.cmps116.url_logger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -26,11 +25,6 @@ public class displaydata extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_data);
 
-        /*ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);*/
-
         serviceIntent = new Intent (displaydata.this, MyService.class);
         statsBtn = (ToggleButton) findViewById(R.id.stats_btn);
         tracking = (TextView) findViewById(R.id.tracking);
@@ -43,6 +37,7 @@ public class displaydata extends AppCompatActivity {
             tracking.setText("Data Tracking is:ON");
             startService(serviceIntent);
         }
+
         statsBtn.setOnClickListener(new View.OnClickListener() { //Logic for toggle button
             @Override
             public void onClick(View v) {

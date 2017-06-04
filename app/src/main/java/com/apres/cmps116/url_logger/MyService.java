@@ -47,8 +47,8 @@ public class MyService extends Service {
     // We use it on Notification start, and to cancel it.
     private int NOTIFICATION = R.string.local_service_started;
     Timer timer = new Timer();
-    Compare[] statArray = new Compare[2000];
-    List<Compare> statsList = new ArrayList<Compare>();
+    Compare[] statArray = new Compare[5000];
+    List<Compare> statsList = new ArrayList<>();
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -83,14 +83,14 @@ public class MyService extends Service {
             String name = "";
             PackageManager pm = getPackageManager();
             try {
-                name = pm.getApplicationInfo(usage.getPackageName(), 0).loadLabel(pm).toString();
+                name = pm.getApplicationInfo(usage.getPackageName(), 0).loadLabel(pm).toString(); //Get app name
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-            statArray[i] = new Compare();
+            statArray[i] = new Compare(); //Initialize all Compare objects
             statArray[i].packageName = usage.getPackageName();
             statArray[i].appName = name;
-            if (statArray[i].packageName.equals("com.apres.cmps116.url_logger")) {
+            if (statArray[i].packageName.equals("com.apres.cmps116.url_logger")) { //Only app that is opened when service is started
                 statArray[i].open = true;
                 statArray[i].openTime = System.currentTimeMillis();
             }
@@ -106,7 +106,7 @@ public class MyService extends Service {
         return statArray;
     }
 
-    int appExists(Map<String, UsageStats> usageStats, String name){
+    int appExists(String name){
         for(int i=0; statArray[i] != null; i++) {
             if (statArray[i].packageName.equals(name)) {
                 Log.d("Crash site", String.valueOf(i));
@@ -136,7 +136,7 @@ public class MyService extends Service {
 
     void compareFunc(UsageStats usage, int i, int launchCount){
 
-        if (!usage.getPackageName().equals("com.sec.android.app.launcher")) {
+        if (!usage.getPackageName().equals("com.sec.android.app.launcher")) { //Launcher used everytime app is opened
             if (usage.getLastTimeUsed() > statArray[i].last) { //If lastTimeUsed is different
                 if (!statArray[i].open) {  //if app is closed
                     String tempName = statArray[i].appName;
@@ -144,7 +144,7 @@ public class MyService extends Service {
                     statArray[i] = new Compare(); //Need to create new instance to fix list bug
                     statArray[i].appName = tempName;
                     statArray[i].packageName = tempPkg;
-                    statArray[i].last = usage.getLastTimeUsed();
+                    statArray[i].last = usage.getLastTimeUsed(); //update last time used
                     statArray[i].open = true;
                     statArray[i].openTime = usage.getLastTimeUsed();
                 } else { //If app is already opened
@@ -154,7 +154,7 @@ public class MyService extends Service {
                     statArray[i].closeTime = usage.getLastTimeUsed();
                     statArray[i].launch = launchCount;
                     statsList.add(statArray[i]);
-                    if (statsList.size() == 3) {
+                    if (statsList.size() == 3) { //if buffer is full
                         sendData(statsList);
                     }
                 }
@@ -166,11 +166,11 @@ public class MyService extends Service {
 
         for (UsageStats usage : usageStats.values()) {
 
-            int i = appExists(usageStats, usage.getPackageName());
+            int i = appExists(usage.getPackageName()); //Check if app was added to statArray
             if (i != -1) {
-                    compareFunc(usage, i, getLaunchCount(usage));
+                    compareFunc(usage, i, getLaunchCount(usage)); //if true
             }
-            else{
+            else{ //add it to statArray
                 String name = "";
                 PackageManager pm = getPackageManager();
                 try {
@@ -183,7 +183,7 @@ public class MyService extends Service {
                 temp.appName = name;
                 temp.last= usage.getLastTimeUsed();
                 statArray[usageStats.size()-1] = temp;
-                i = appExists(usageStats, usage.getPackageName());
+                i = appExists(usage.getPackageName()); //check again to get new index
                 compareFunc(usage, i, getLaunchCount(usage));
             }
         }
@@ -198,7 +198,7 @@ public class MyService extends Service {
                     @Override
                     public void run() {
                         Calendar cal = Calendar.getInstance();
-                        int hour = cal.get(Calendar.HOUR_OF_DAY);
+                        int hour = cal.get(Calendar.HOUR_OF_DAY);//check hour
                         if (hour == 12 && statsList.size()!=0 ) //Send data once a day
                             {sendData(statsList);}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
@@ -209,11 +209,10 @@ public class MyService extends Service {
 
     @Override
     //When background service starts
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) { //When process starts
      Log.d("Start Command", "Inside");
 
         showNotification();
-        Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
         CollectData();
         Log.d("LocalService", "Received start id " + startId + ": " + intent);
         //Log.d("On alarm", "test two");
@@ -296,9 +295,9 @@ public class MyService extends Service {
     public void onDestroy() { //Destroys background function
         // Cancel the persistent notification.
         if (statsList.size() > 0)
-            {sendData(statsList);}
-        mNM.cancel(NOTIFICATION);
-        timer.cancel();
+            {sendData(statsList);} //Send whats in buffer before destorying process
+        mNM.cancel(NOTIFICATION); //Stop notification
+        timer.cancel(); //stop timer
         timer.purge();
 
         //Tell the user we stopped.

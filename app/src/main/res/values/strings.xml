@@ -14,6 +14,6 @@
         completions."
     </string>
     <string name="local_service_started">Service has started</string>
-    <string name="local_service_label">Notification</string>
+    <string name="local_service_label">UTELEM</string>
     <string name="logout_button">logout</string>
 </resources>
