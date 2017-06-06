@@ -88,43 +88,37 @@
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="149dp"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="24dp"
                 android:layout_marginLeft="130dp"
                 android:layout_marginRight="130dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/activity_button"
                 android:text="@string/action_sign_in"
                 android:textColor="#583f3f"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <Button
+            <TextView
                 android:id="@+id/register_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="149dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
-                android:layout_marginLeft="130dp"
-                android:layout_marginRight="130dp"
-                android:layout_marginTop="26dp"
-                android:background="@drawable/activity_button"
-                android:text="@string/action_sign_up"
+                android:gravity="center"
+                android:text="Register"
                 android:textColor="#583f3f"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textSize="16dip"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/privacypolicy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="Terms of Policy"
+                android:text="Terms of Service"
                 android:textColor="@color/colorPrivacy"
                 android:textSize="16dip" />
 
