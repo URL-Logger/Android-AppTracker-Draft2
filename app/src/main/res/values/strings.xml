@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_up">Register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -16,5 +16,5 @@
     </string>
     <string name="local_service_started">Tracking Enabled</string>
     <string name="local_service_label">UTELEM</string>
-    <string name="logout_button">logout</string>
+    <string name="logout_button">Log Out</string>
 </resources>
