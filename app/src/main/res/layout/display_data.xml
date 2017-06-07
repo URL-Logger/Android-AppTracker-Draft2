@@ -22,8 +22,8 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="450dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="650dp"
+        android:layout_marginRight="10dp"
         android:textSize="16dp"/>
 
     <ImageView
@@ -38,7 +38,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="200dp" />
 
     <ToggleButton
         android:id="@+id/stats_btn"
@@ -50,21 +50,20 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="165dp"
         app:layout_constraintRight_toLeftOf="@+id/logout_btn"
-        android:layout_marginRight="8dp"
         app:layout_constraintHorizontal_bias="0.059"
-        android:textSize="16dp"
+        android:textSize="18dp"
         />
 
     <TextView
         android:id="@+id/tracking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="58dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="monospace"
         android:text="Data Tracking is:OFF"
         android:textSize="18sp"
@@ -73,7 +72,6 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1"
         tools:text="Data Tracking is:OFF"
-        android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.461" />
 
