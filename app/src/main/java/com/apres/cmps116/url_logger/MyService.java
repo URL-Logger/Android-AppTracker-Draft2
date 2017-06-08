@@ -10,9 +10,12 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
@@ -41,7 +44,7 @@ import java.util.List;
 
 public class MyService extends Service {
 
-    private NotificationManager mNM;
+    static NotificationManager mNM;
     private RequestQueue mRequestQueue;
     // Unique Identification Number for the Notification.
     // We use it on Notification start, and to cancel it.
@@ -49,6 +52,7 @@ public class MyService extends Service {
     Timer timer = new Timer();
     Compare[] statArray = new Compare[5000];
     List<Compare> statsList = new ArrayList<>();
+    public SharedPreferences loginSettings;
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -68,6 +72,8 @@ public class MyService extends Service {
             startActivity(intent);
         }
         Log.d("OnCreate", "Started Service");
+
+        loginSettings = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Log.d("OnCreate", "Before Notification");
@@ -226,7 +232,7 @@ public class MyService extends Service {
         String dataString = "";
 
         for (int i =0; i<results.size(); i++) {
-            String userid = LoginActivity.userid;
+            String userid = loginSettings.getString("userid", null);
             String appid = results.get(i).packageName;
             String appName = results.get(i).appName;
             String start =simpleDateFormat.format(results.get(i).openTime);

@@ -8,6 +8,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -80,11 +81,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private String responseString;
-    static String userid;
+    String userid;
     static int usernum;
 
     //Allows for login persistence
-    public static SharedPreferences loginSettings;
+    public SharedPreferences loginSettings;
     private static final String IS_LOGIN = "IsLoggedIn";
     public static SharedPreferences.Editor editor;
 
@@ -296,6 +297,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (response != null) {
                         responseString = new String(response.data);
                         userid = responseString;
+                        editor.putString("userid", userid);
+                        editor.apply();
                         usernum = Integer.parseInt(userid);
                     }
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
