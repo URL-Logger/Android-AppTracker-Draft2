@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button); //sign in button
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,13 +135,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        final TextView register = (TextView) findViewById(R.id.register_button);
+        final TextView register = (TextView) findViewById(R.id.register_button); // register button
         register.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                //intent.addCategory(Intent.CATEGORY_APP_BROWSER);
                 intent.setData(Uri.parse("http://sample-env-1.mmp43pn7bg.us-west-1.elasticbeanstalk.com/#!/signup"));
                 startActivity(intent);
             }
@@ -169,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
     }
 
-    private boolean mayRequestContacts() {
+    private boolean mayRequestContacts() { //Checks for minimu sdk and for contact permissions. Contacts not needed
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
@@ -267,12 +266,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Log.i("VOLLEY", response);
                     if(usernum > 0) {
                         editor.putBoolean(IS_LOGIN, true); //Update to reflect a user is currently signed in
-                        editor.commit();
+                        editor.commit(); //commit the change
                         Intent intent = new Intent(LoginActivity.this, displaydata.class);
-                        startActivity(intent);
+                        startActivity(intent); //redirect to diplaydata activity
                     }
                     else{
-                        showProgress(false);
+                        showProgress(false); //Stop loading animation
                         Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
                         startActivity(intent);
                         Toast.makeText(LoginActivity.this, "Incorrect Username or Password", Toast.LENGTH_LONG).show();
@@ -304,11 +303,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (response != null) {
                         responseString = new String(response.data);
                         userid = responseString;
-                        editor.putString("userid", userid);
-                        editor.apply();
-                        usernum = Integer.parseInt(userid);
+                        editor.putString("userid", userid); //store userid in shared preferences
+                        editor.apply(); //commit changes
+                        usernum = Integer.parseInt(userid); //get userid as an int
                     }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response)); //was reponse recieved?
                 }
             };
             mRequestQueue.add(stringRequest);
