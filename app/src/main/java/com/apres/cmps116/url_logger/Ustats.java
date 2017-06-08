@@ -22,7 +22,7 @@ class UStats {
     //cal.set
 
     //This function is what aggregates all of the usage stats together
-    public static Map<String,UsageStats> getUsageStatsList(MyService context){
+    public static Map<String,UsageStats> getUsageStatsList(Context context){
         UsageStatsManager usm = getUsageStatsManager((Context) context);
         Calendar calendar = Calendar.getInstance();
 

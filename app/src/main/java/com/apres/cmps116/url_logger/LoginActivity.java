@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -97,6 +98,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
          */
         loginSettings = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         editor = loginSettings.edit();
+
+        if (UStats.getUsageStatsList(this).isEmpty()){ //Check if permissions are granted
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
+
         if(loginSettings.getBoolean(IS_LOGIN, false)){
             Intent intent = new Intent(LoginActivity.this, displaydata.class);
             startActivity(intent);

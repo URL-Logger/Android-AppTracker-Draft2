@@ -67,10 +67,7 @@ public class MyService extends Service {
 
     @Override
     public void onCreate() {
-        if (UStats.getUsageStatsList(this).isEmpty()){ //Check if permissions are granted
-            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            startActivity(intent);
-        }
+
         Log.d("OnCreate", "Started Service");
 
         loginSettings = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
