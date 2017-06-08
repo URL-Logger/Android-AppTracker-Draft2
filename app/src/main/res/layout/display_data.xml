@@ -11,9 +11,9 @@
 
     <Button
         android:id="@+id/logout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:background="@drawable/logout_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/activity_button"
         android:onClick="logoutUser"
         android:src="@drawable/logout_logo"
         android:text="@string/logout_button"
@@ -24,7 +24,10 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="36dp"
         android:layout_marginRight="50dp"
-        android:layout_marginEnd="50dp"/>
+        android:layout_marginEnd="50dp"
+        android:textColor="#583f3f"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -42,8 +45,8 @@
 
     <ToggleButton
         android:id="@+id/stats_btn"
-        android:layout_width="88dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
         android:background="@drawable/activity_button"
         android:textOff="On"
         android:textOn="Off"
@@ -57,7 +60,10 @@
         android:layout_marginRight="8dp"
         app:layout_constraintHorizontal_bias="0.05"
         android:layout_marginStart="50dp"
-        android:layout_marginEnd="8dp"/>
+        android:layout_marginEnd="8dp"
+        android:textColor="#583f3f"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tracking"

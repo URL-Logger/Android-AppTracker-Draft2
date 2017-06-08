@@ -91,7 +91,7 @@
                 android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="14dp"
                 android:layout_marginLeft="130dp"
                 android:layout_marginRight="130dp"
                 android:layout_marginTop="20dp"
@@ -101,26 +101,31 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/register_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Register"
-                android:textColor="#583f3f"
-                android:textSize="16dip"
-                android:textStyle="bold"/>
+
+
 
             <TextView
                 android:id="@+id/privacypolicy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="60dp"
                 android:gravity="center"
                 android:text="Terms of Service"
                 android:textColor="@color/colorPrivacy"
                 android:textSize="16dip" />
+
+            <TextView
+                android:id="@+id/register_button"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="60dp"
+                android:gravity="center"
+                android:text="Create Account"
+                android:textSize="16dp"
+                android:textColor="@color/colorPrivacy"
+                />
+
+
 
         </LinearLayout>
     </ScrollView>
