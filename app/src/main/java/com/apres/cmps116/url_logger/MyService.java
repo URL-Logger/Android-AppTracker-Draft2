@@ -42,6 +42,8 @@ import java.io.UnsupportedEncodingException;
 
 import java.util.List;
 
+import static com.apres.cmps116.url_logger.displaydata.statsBtn;
+
 public class MyService extends Service {
 
     static NotificationManager mNM;
@@ -69,6 +71,7 @@ public class MyService extends Service {
     public void onCreate() {
         if (UStats.getUsageStatsList(this).isEmpty()){ //Check if permissions are granted
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //Prevent crashes
             startActivity(intent);
         }
         Log.d("OnCreate", "Started Service");
@@ -113,7 +116,7 @@ public class MyService extends Service {
     }
 
     int appExists(String name){
-        for(int i=0; statArray[i] != null; i++) {
+        for(int i=0; statArray[i] != null; ++i) {
             if (statArray[i].packageName.equals(name)) {
                 Log.d("Crash site", String.valueOf(i));
                 return i;
