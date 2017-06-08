@@ -15,6 +15,6 @@
         completions."
     </string>
     <string name="local_service_started">Tracking Enabled</string>
-    <string name="local_service_label">UTELEM</string>
+    <string name="local_service_label">UTELEM Data Tracking</string>
     <string name="logout_button">Log Out</string>
 </resources>
