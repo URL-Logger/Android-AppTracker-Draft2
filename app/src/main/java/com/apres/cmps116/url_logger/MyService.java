@@ -205,7 +205,9 @@ public class MyService extends Service {
                     public void run() {
                         Calendar cal = Calendar.getInstance();
                         int hour = cal.get(Calendar.HOUR_OF_DAY);//check hour
-                        if (hour == 12 && statsList.size()!=0 ) //Send data once a day
+                        int min = cal.get(Calendar.MINUTE);
+                        int sec = cal.get(Calendar.SECOND);
+                        if (hour == 12 && min == 0 && sec ==0 && statsList.size()!=0 ) //Send data once a day
                             {sendData(statsList);}
                         Map<String, UsageStats> usageStatsList = UStats.getUsageStatsList(MyService.this);
                         analyzeData(usageStatsList);
