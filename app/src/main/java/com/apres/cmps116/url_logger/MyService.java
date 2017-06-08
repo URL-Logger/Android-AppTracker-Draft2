@@ -42,6 +42,8 @@ import java.io.UnsupportedEncodingException;
 
 import java.util.List;
 
+import static com.apres.cmps116.url_logger.displaydata.statsBtn;
+
 public class MyService extends Service {
 
     static NotificationManager mNM;
@@ -110,7 +112,7 @@ public class MyService extends Service {
     }
 
     int appExists(String name){
-        for(int i=0; statArray[i] != null; i++) {
+        for(int i=0; statArray[i] != null; ++i) {
             if (statArray[i].packageName.equals(name)) {
                 Log.d("Crash site", String.valueOf(i));
                 return i;
