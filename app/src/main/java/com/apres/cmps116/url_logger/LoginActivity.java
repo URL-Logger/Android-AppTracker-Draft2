@@ -146,15 +146,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        final TextView privacypolicypage = (TextView) findViewById(R.id.privacypolicy);
-        privacypolicypage.setOnClickListener(new OnClickListener() {
+        final TextView privacy = (TextView) findViewById(R.id.privacy_policy);
+        privacy.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, Privacypolicy.class);
                 startActivity(intent);
             }
         });
-        privacypolicypage.setClickable(true);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

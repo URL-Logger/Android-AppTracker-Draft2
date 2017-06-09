@@ -103,25 +103,31 @@
 
 
             <TextView
-                android:id="@+id/privacypolicy"
-                android:layout_width="match_parent"
+                android:id="@+id/privacy_policy"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60dp"
                 android:gravity="center"
                 android:text="Terms of Service"
                 android:textColor="@color/colorPrivacy"
                 android:textSize="16dip"
-                android:layout_weight="0.08" />
+                android:layout_weight="0.08"
+                android:clickable="true"
+                />
 
             <TextView
                 android:id="@+id/register_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="65dp"
+                android:paddingBottom="40dp"
                 android:gravity="center"
-                android:text="Register"
+                android:text="Create Account"
                 android:textColor="@color/colorPrivacy"
                 android:textSize="16dip"
+                android:clickable="true"
                 />
 
 
